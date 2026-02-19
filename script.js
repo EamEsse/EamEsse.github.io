@@ -49,3 +49,8 @@ function openProduct(name) {
     document.getElementById("product-link").href = "https://cults3d.com/";
   }
 }
+
+function goBack() {
+  document.getElementById("product-view").style.display = "none";
+  document.querySelector(".module").style.display = "block";
+}

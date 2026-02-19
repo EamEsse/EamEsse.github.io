@@ -188,11 +188,28 @@ header {
 
 
 .product-view {
+  position: relative; /* importante */
   margin: 40px 60px;
   background: white;
   padding: 40px;
   border-radius: 20px;
 }
+
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  transition: 0.2s ease;
+}
+
+.back-arrow:hover {
+  opacity: 0.6;
+}
+
 
 .product-layout {
   display: flex;
