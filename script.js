@@ -34,6 +34,7 @@ function openProduct(id) {
 
   document.querySelector(".module").style.display = "none";
   document.getElementById("product-view").style.display = "block";
+  document.querySelector(".back-arrow").style.display = "block";
 
   if (id === "producto1") {
     document.getElementById("product-title").innerText = "Funda para pendrive con forma de patita de gato";
@@ -48,4 +49,10 @@ function openProduct(id) {
     document.getElementById("product-main-img").src = "fotos_productos_3d/producto2/1.jpg";
     document.getElementById("product-link").href = "https://cults3d.com/";
   }
+}
+
+function goBack() {
+  document.getElementById("product-view").style.display = "none";
+  document.querySelector(".module").style.display = "block";
+  document.querySelector(".back-arrow").style.display = "none";
 }
