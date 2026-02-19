@@ -114,3 +114,98 @@ header {
   border-radius: 8px;
   cursor: pointer;
 }
+
+.module {
+  background: white;
+  margin: 40px 60px;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.module-header h2 {
+  margin: 0;
+}
+
+.module-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.module-card {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.module-card img {
+  width: 100%;
+  display: block;
+  border-radius: 15px;
+  transition: 0.3s ease;
+}
+
+.module-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Overlay hover */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.module-card:hover .overlay {
+  opacity: 1;
+}
+
+.product-view {
+  margin: 40px 60px;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+}
+
+.product-layout {
+  display: flex;
+  gap: 50px;
+}
+
+.product-images {
+  flex: 1;
+}
+
+.product-images img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-info h2 {
+  margin-top: 0;
+}

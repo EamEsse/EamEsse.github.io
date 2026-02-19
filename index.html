@@ -32,42 +32,58 @@
   <div class="logo-center">
     <img src="logo.png" alt="logo grande">
   </div>
-  
+
 </header>
 
 
-<!-- GALERÍA -->
-<section>
-  <h2>Productos impresión 3D</h2>
+<!-- MODULO IMPRESION 3D -->
+<section class="module">
 
-  <div class="grid">
+  <div class="module-header">
+    <h2>Impresión 3D</h2>
+    <button onclick="showSection('impresion3d')">Ver todo ☰</button>
+  </div>
 
-    <div class="card" onclick="openModal(
-      'Organizador',
-      'Organizador impreso en 3D.',
-      [
-        'fotos_productos_3d/producto1/1.jpg',
-        'fotos_productos_3d/producto1/2.jpg',
-        'fotos_productos_3d/producto1/3.jpg'
-      ]
-    )">
+  <div class="module-grid">
+
+    <div class="module-card" onclick="openProduct('Organizador')">
       <img src="fotos_productos_3d/producto1/1.jpg">
-      <p>Organizador</p>
+      <div class="overlay">Organizador</div>
     </div>
 
-    <div class="card" onclick="openModal(
-      'Figura cute',
-      'Figura decorativa estilo cute.',
-      [
-        'fotos_productos_3d/producto2/1.jpg',
-        'fotos_productos_3d/producto2/2.jpg'
-      ]
-    )">
+    <div class="module-card" onclick="openProduct('Figura cute')">
       <img src="fotos_productos_3d/producto2/1.jpg">
-      <p>Figura cute</p>
+      <div class="overlay">Figura cute</div>
+    </div>
+
+    <div class="module-card">
+      <img src="fotos_productos_3d/producto1/2.jpg">
+      <div class="overlay">Producto 3</div>
     </div>
 
   </div>
+
+</section>
+
+<!-- VISTA PRODUCTO -->
+<section id="product-view" class="product-view" style="display:none;">
+
+  <div class="product-layout">
+
+    <div class="product-images">
+      <img id="product-main-img" src="">
+    </div>
+
+    <div class="product-info">
+      <h2 id="product-title"></h2>
+      <p id="product-desc"></p>
+      <a id="product-link" href="#" target="_blank">
+        <button class="buy-btn">Comprar</button>
+      </a>
+    </div>
+
+  </div>
+
 </section>
 
 <!-- MODAL -->

@@ -29,3 +29,23 @@ document.getElementById("nextBtn").onclick = function() {
     document.getElementById("modal-img").src = images[currentIndex];
   }
 };
+
+function openProduct(name) {
+
+  document.querySelector(".module").style.display = "none";
+  document.getElementById("product-view").style.display = "block";
+
+  if (name === "Organizador") {
+    document.getElementById("product-title").innerText = "Organizador";
+    document.getElementById("product-desc").innerText = "Organizador impreso en 3D funcional.";
+    document.getElementById("product-main-img").src = "fotos_productos_3d/producto1/1.jpg";
+    document.getElementById("product-link").href = "https://cults3d.com/";
+  }
+
+  if (name === "Figura cute") {
+    document.getElementById("product-title").innerText = "Figura cute";
+    document.getElementById("product-desc").innerText = "Figura decorativa estilo cute.";
+    document.getElementById("product-main-img").src = "fotos_productos_3d/producto2/1.jpg";
+    document.getElementById("product-link").href = "https://cults3d.com/";
+  }
+}
