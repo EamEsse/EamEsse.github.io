@@ -30,27 +30,22 @@ document.getElementById("nextBtn").onclick = function() {
   }
 };
 
-function openProduct(name) {
+function openProduct(id) {
 
   document.querySelector(".module").style.display = "none";
   document.getElementById("product-view").style.display = "block";
 
-  if (name === "Funda para pendrive con forma de patita de gato") {
+  if (id === "producto1") {
     document.getElementById("product-title").innerText = "Funda para pendrive con forma de patita de gato";
     document.getElementById("product-desc").innerText = "Una funda para pendrive con forma de patita de gato.";
     document.getElementById("product-main-img").src = "fotos_productos_3d/producto1/1.jpg";
     document.getElementById("product-link").href = "https://cults3d.com/";
   }
 
-  if (name === "Marcapáginas") {
+  if (id === "producto2") {
     document.getElementById("product-title").innerText = "Marcapáginas";
     document.getElementById("product-desc").innerText = "Marcapáginas con formas de gatitos.";
     document.getElementById("product-main-img").src = "fotos_productos_3d/producto2/1.jpg";
     document.getElementById("product-link").href = "https://cults3d.com/";
   }
-}
-
-function goBack() {
-  document.getElementById("product-view").style.display = "none";
-  document.querySelector(".module").style.display = "block";
 }
