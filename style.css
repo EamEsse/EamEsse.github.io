@@ -7,30 +7,24 @@ body {
 header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
 }
 
 .top-bar {
-  width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .logo-left {
   display: flex;
   align-items: center;
-  gap: 6px; /* espacio entre logo y letras */
+  gap: 6px;
+  text-decoration: none;
 }
-
-.logo-left img:first-child {
-  width: 35px; /* tamaño del logo */
-}
-
-.logo-left img:last-child {
-  width: 90px; /* tamaño de la imagen de letras */
-}
-
 
 .logo-left img:first-child {
   width: 35px;
@@ -40,16 +34,25 @@ header {
   width: 90px;
 }
 
+.social {
+  display: flex;
+  align-items: center;
+}
+
 .social img {
   width: 28px;
   margin-left: 10px;
 }
 
-.logo-center img {
-  width: 140px;
-  margin: 10px 0 20px;
+.logo-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
+.logo-center img {
+  width: 140px;
+}
 
 .grid {
   display: grid;
