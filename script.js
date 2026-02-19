@@ -35,16 +35,16 @@ function openProduct(name) {
   document.querySelector(".module").style.display = "none";
   document.getElementById("product-view").style.display = "block";
 
-  if (name === "Organizador") {
-    document.getElementById("product-title").innerText = "Organizador";
-    document.getElementById("product-desc").innerText = "Organizador impreso en 3D funcional.";
+  if (name === "Funda para pendrive con forma de patita de gato") {
+    document.getElementById("product-title").innerText = "Funda para pendrive con forma de patita de gato";
+    document.getElementById("product-desc").innerText = "Una funda para pendrive con forma de patita de gato.";
     document.getElementById("product-main-img").src = "fotos_productos_3d/producto1/1.jpg";
     document.getElementById("product-link").href = "https://cults3d.com/";
   }
 
-  if (name === "Figura cute") {
-    document.getElementById("product-title").innerText = "Figura cute";
-    document.getElementById("product-desc").innerText = "Figura decorativa estilo cute.";
+  if (name === "Marcapáginas") {
+    document.getElementById("product-title").innerText = "Marcapáginas";
+    document.getElementById("product-desc").innerText = "Marcapáginas con formas de gatitos.";
     document.getElementById("product-main-img").src = "fotos_productos_3d/producto2/1.jpg";
     document.getElementById("product-link").href = "https://cults3d.com/";
   }
