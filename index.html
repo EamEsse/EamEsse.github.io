@@ -2,9 +2,85 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Prueba</title>
+  <title>EAM ESSE</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body style="background: black; color: white; font-size: 30px;">
-  SI VES ESTO, GITHUB PAGES FUNCIONA
+<body>
+
+<!-- HEADER -->
+<header>
+  <!-- izquierda -->
+    <a href="index.html" class="logo-left">
+        <img src="logo.png" alt="logo">
+    <img src="letras.png" alt="EAM ESSE">
+    </a>
+
+
+  <!-- centro -->
+  <div class="logo-center">
+    <img src="logo.png" alt="logo grande">
+  </div>
+
+  <!-- derecha -->
+  <div class="social">
+    <a href="https://instagram.com/TU_USUARIO" target="_blank">
+      <img src="icons/instagram.png">
+    </a>
+    <a href="https://tiktok.com/@TU_USUARIO" target="_blank">
+      <img src="icons/tiktok.png">
+    </a>
+  </div>
+</header>
+
+<!-- GALERÍA -->
+<section>
+  <h2>Productos impresión 3D</h2>
+
+  <div class="grid">
+
+    <div class="card" onclick="openModal(
+      'Organizador',
+      'Organizador impreso en 3D.',
+      [
+        'fotos_productos_3d/producto1/1.jpg',
+        'fotos_productos_3d/producto1/2.jpg',
+        'fotos_productos_3d/producto1/3.jpg'
+      ]
+    )">
+      <img src="fotos_productos_3d/producto1/1.jpg">
+      <p>Organizador</p>
+    </div>
+
+    <div class="card" onclick="openModal(
+      'Figura cute',
+      'Figura decorativa estilo cute.',
+      [
+        'fotos_productos_3d/producto2/1.jpg',
+        'fotos_productos_3d/producto2/2.jpg'
+      ]
+    )">
+      <img src="fotos_productos_3d/producto2/1.jpg">
+      <p>Figura cute</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">✖</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc"></p>
+    <img id="modal-img">
+    <div class="buttons">
+      <button id="prevBtn">⬅</button>
+      <button id="nextBtn">➡</button>
+    </div>
+    <button class="buy-btn">Comprar en Cults3D</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

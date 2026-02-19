@@ -1,0 +1,113 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.logo-left {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* espacio entre logo y letras */
+}
+
+.logo-left img:first-child {
+  width: 35px; /* tamaño del logo */
+}
+
+.logo-left img:last-child {
+  width: 90px; /* tamaño de la imagen de letras */
+}
+
+
+.logo-left img:first-child {
+  width: 35px;
+}
+
+.logo-left img:last-child {
+  width: 90px;
+}
+
+.social img {
+  width: 28px;
+  margin-left: 10px;
+}
+
+.logo-center img {
+  width: 140px;
+  margin: 10px 0 20px;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background: white;
+  margin: 5% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.modal-content img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+.buttons {
+  margin-top: 10px;
+}
+
+.buy-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
