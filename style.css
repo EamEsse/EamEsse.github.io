@@ -146,6 +146,10 @@ header {
   gap: 25px;
 }
 
+.module-grid.full-grid {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
 .module-card {
   position: relative;
   cursor: pointer;
@@ -221,11 +225,71 @@ header {
 
 .product-images {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
 }
 
 .product-images img {
   width: 100%;
   border-radius: 15px;
+  display: block;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 15px 10px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.slider-arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.slider-arrow.prev {
+  left: 10px;
+}
+
+.slider-arrow.next {
+  right: 10px;
+}
+
+.product-thumbnails {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.product-thumbnails img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s, border 0.3s;
+  border: 2px solid transparent;
+}
+
+.product-thumbnails img:hover,
+.product-thumbnails img.active {
+  opacity: 1;
+  border-color: #333;
 }
 
 .product-info {

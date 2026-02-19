@@ -42,8 +42,8 @@
   <section class="module">
 
     <div class="module-header">
-      <h2>Impresión 3D</h2>
-      <button onclick="showSection('impresion3d')">Ver todo ☰</button>
+      <h2>Modelos para impresión 3D</h2>
+      <button onclick="window.location.href='modelos-impresion-3d.html'">Ver todo ☰</button>
     </div>
 
     <div class="module-grid">
@@ -58,9 +58,53 @@
         <div class="overlay">Marcapáginas</div>
       </div>
 
-      <div class="module-card">
+      <div class="module-card" onclick="openProduct('Producto3')">
         <img src="fotos_productos_3d/producto3/1.jpg">
-        <div class="overlay">Producto 3</div>
+        <div class="overlay">Porta-anillos con forma de helado</div>
+      </div>
+
+      <div class="module-card" onclick="openProduct('Producto4')">
+        <img src="fotos_productos_3d/producto4/1.jpg">
+        <div class="overlay">Soporte para auriculares minimalista</div>
+      </div>
+
+      <div class="module-card" onclick="openProduct('Producto5')">
+        <img src="fotos_productos_3d/producto5/1.jpg">
+        <div class="overlay">Maceta geométrica decorativa</div>
+      </div>
+
+      <div class="module-card" onclick="openProduct('Producto6')">
+        <img src="fotos_productos_3d/producto6/1.jpg">
+        <div class="overlay">Llavero de pulpo articulado</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SECCION RENDERS -->
+  <section class="module">
+
+    <div class="module-header">
+      <h2>Renders</h2>
+      <button onclick="showSection('renders')">Ver todo ☰</button>
+    </div>
+
+    <div class="module-grid">
+
+      <div class="module-card" onclick="openProduct('Render1')">
+        <img src="fotos_renders/render1/1.jpg">
+        <div class="overlay">Render Escenario 1</div>
+      </div>
+
+      <div class="module-card" onclick="openProduct('Render2')">
+        <img src="fotos_renders/render2/1.jpg">
+        <div class="overlay">Render Personaje A</div>
+      </div>
+
+      <div class="module-card" onclick="openProduct('Render3')">
+        <img src="fotos_renders/render3/1.jpg">
+        <div class="overlay">Render Concepto X</div>
       </div>
 
     </div>
@@ -76,7 +120,12 @@
     <div class="product-layout">
 
       <div class="product-images">
-        <img id="product-main-img" src="">
+        <div class="slider-container">
+          <button class="slider-arrow prev" onclick="changeImage(-1)">❮</button>
+          <img id="product-main-img" src="">
+          <button class="slider-arrow next" onclick="changeImage(1)">❯</button>
+        </div>
+        <div id="product-thumbnails" class="product-thumbnails"></div>
       </div>
 
       <div class="product-info">

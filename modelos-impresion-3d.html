@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modelos para Impresión 3D - EAM ESSE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="top-bar">
+            <a href="index.html" class="logo-left">
+                <img src="logo.png" alt="logo">
+                <img src="letras.png" alt="EAM ESSE">
+            </a>
+            <div class="social">
+                <a href="https://www.instagram.com/eam.esse/" target="_blank">
+                    <img src="icons/instagram.png">
+                </a>
+                <a href="https://www.tiktok.com/@eam.esse" target="_blank">
+                    <img src="icons/tiktok.png">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="module">
+        <div class="module-header">
+            <a href="index.html" style="text-decoration: none; color: black; font-weight: bold;">← Volver al inicio</a>
+            <h2>Modelos para Impresión 3D</h2>
+            <div style="width: 100px;"></div> <!-- Spacer -->
+        </div>
+
+        <div class="module-grid full-grid">
+            <!-- Los primeros 6 que ya teníamos -->
+            <div class="module-card" onclick="openProduct('Producto1')">
+                <img src="fotos_productos_3d/producto1/1.jpg">
+                <div class="overlay">Funda para pendrive con forma de patita de gato</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto2')">
+                <img src="fotos_productos_3d/producto2/1.jpg">
+                <div class="overlay">Marcapáginas</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto3')">
+                <img src="fotos_productos_3d/producto3/1.jpg">
+                <div class="overlay">Porta-anillos con forma de helado</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto4')">
+                <img src="fotos_productos_3d/producto4/1.jpg">
+                <div class="overlay">Soporte para auriculares minimalista</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto5')">
+                <img src="fotos_productos_3d/producto5/1.jpg">
+                <div class="overlay">Maceta geométrica decorativa</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto6')">
+                <img src="fotos_productos_3d/producto6/1.jpg">
+                <div class="overlay">Llavero de pulpo articulado</div>
+            </div>
+
+            <!-- 12 productos adicionales (placeholders) -->
+            <div class="module-card" onclick="openProduct('Producto7')">
+                <img src="fotos_productos_3d/producto7/1.jpg">
+                <div class="overlay">Producto 7</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto8')">
+                <img src="fotos_productos_3d/producto8/1.jpg">
+                <div class="overlay">Producto 8</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto9')">
+                <img src="fotos_productos_3d/producto9/1.jpg">
+                <div class="overlay">Producto 9</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto10')">
+                <img src="fotos_productos_3d/producto10/1.jpg">
+                <div class="overlay">Producto 10</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto11')">
+                <img src="fotos_productos_3d/producto11/1.jpg">
+                <div class="overlay">Producto 11</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto12')">
+                <img src="fotos_productos_3d/producto12/1.jpg">
+                <div class="overlay">Producto 12</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto13')">
+                <img src="fotos_productos_3d/producto13/1.jpg">
+                <div class="overlay">Producto 13</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto14')">
+                <img src="fotos_productos_3d/producto14/1.jpg">
+                <div class="overlay">Producto 14</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto15')">
+                <img src="fotos_productos_3d/producto15/1.jpg">
+                <div class="overlay">Producto 15</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto16')">
+                <img src="fotos_productos_3d/producto16/1.jpg">
+                <div class="overlay">Producto 16</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto17')">
+                <img src="fotos_productos_3d/producto17/1.jpg">
+                <div class="overlay">Producto 17</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Producto18')">
+                <img src="fotos_productos_3d/producto18/1.jpg">
+                <div class="overlay">Producto 18</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VISTA PRODUCTO -->
+    <section id="product-view" class="product-view" style="display:none;">
+        <div id="backArrow" class="back-arrow" onclick="goBack()">← Volver</div>
+        <div class="product-layout">
+            <div class="product-images">
+                <div class="slider-container">
+                    <button class="slider-arrow prev" onclick="changeImage(-1)">❮</button>
+                    <img id="product-main-img" src="">
+                    <button class="slider-arrow next" onclick="changeImage(1)">❯</button>
+                </div>
+                <div id="product-thumbnails" class="product-thumbnails"></div>
+            </div>
+            <div class="product-info">
+                <h2 id="product-title"></h2>
+                <p id="product-desc"></p>
+                <a id="product-link" href="#" target="_blank">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
