@@ -34,7 +34,7 @@ function openProduct(id) {
 
   document.querySelector(".module").style.display = "none";
   document.getElementById("product-view").style.display = "block";
-  document.querySelector(".back-arrow").style.display = "block";
+  document.getElementById("backArrow").style.display = "block";
 
   if (id === "producto1") {
     document.getElementById("product-title").innerText = "Funda para pendrive con forma de patita de gato";
@@ -54,5 +54,6 @@ function openProduct(id) {
 function goBack() {
   document.getElementById("product-view").style.display = "none";
   document.querySelector(".module").style.display = "block";
-  document.querySelector(".back-arrow").style.display = "none";
+  document.getElementById("backArrow").style.display = "none";
 }
+
