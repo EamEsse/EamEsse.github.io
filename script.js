@@ -16,19 +16,25 @@ function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
 
-document.getElementById("prevBtn").onclick = function () {
-  if (currentIndex > 0) {
-    currentIndex--;
-    document.getElementById("modal-img").src = images[currentIndex];
-  }
-};
+const prevBtn = document.getElementById("prevBtn");
+if (prevBtn) {
+  prevBtn.onclick = function () {
+    if (currentIndex > 0) {
+      currentIndex--;
+      document.getElementById("modal-img").src = images[currentIndex];
+    }
+  };
+}
 
-document.getElementById("nextBtn").onclick = function () {
-  if (currentIndex < images.length - 1) {
-    currentIndex++;
-    document.getElementById("modal-img").src = images[currentIndex];
-  }
-};
+const nextBtn = document.getElementById("nextBtn");
+if (nextBtn) {
+  nextBtn.onclick = function () {
+    if (currentIndex < images.length - 1) {
+      currentIndex++;
+      document.getElementById("modal-img").src = images[currentIndex];
+    }
+  };
+}
 
 let productImages = [];
 let currentProductImgIndex = 0;
@@ -77,6 +83,12 @@ function openProduct(id) {
     document.getElementById("product-title").innerText = "Render " + productId.replace("render", "");
     document.getElementById("product-desc").innerText = "Visualización 3D artística realizada con Blender/Cycles.";
     document.getElementById("product-link").style.display = "none"; // 👈 ocultar botón comprar
+  } else if (productId.startsWith("producto")) {
+    const num = productId.replace("producto", "");
+    productImages = [`fotos_productos_3d/${productId}/1.jpg`];
+    document.getElementById("product-title").innerText = "Producto " + num;
+    document.getElementById("product-desc").innerText = "Diseño exclusivo de modelo para impresión 3D.";
+    document.getElementById("product-link").href = "https://cults3d.com/";
   } else {
     // Default or other products
     productImages = [`fotos_productos_3d/${productId}/1.jpg`];
@@ -140,5 +152,23 @@ function goBack() {
   document.getElementById("product-view").style.display = "none";
   document.querySelectorAll(".module").forEach(m => m.style.display = "block");
   document.getElementById("backArrow").style.display = "none";
+}
+
+function showSection(sectionId) {
+  if (sectionId === 'renders') {
+    // Si estamos en index.html, ocultamos los otros módulos y mostramos solo el de renders
+    // O podríamos simplemente hacer scroll si estuvieran todos en la misma página
+    // Dado el diseño actual, 'Ver todo' en Renders podría filtrar o redirigir.
+    // De momento, mantendremos la coherencia con lo que el usuario espera.
+    // Si no hay una página dedicada a renders, simplemente mostramos el módulo.
+    document.querySelectorAll(".module").forEach(m => {
+      const h2 = m.querySelector("h2");
+      if (h2 && h2.innerText.toLowerCase().includes("renders")) {
+        m.style.display = "block";
+      } else {
+        m.style.display = "none";
+      }
+    });
+  }
 }
 
