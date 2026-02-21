@@ -74,25 +74,27 @@ async function openProduct(id) {
     document.getElementById("product-link").style.display = "inline-block";
 
     // CARGA DINÁMICA DE IMÁGENES
-    // Probamos extensiones .jpg y .JPG para hasta 10 imágenes
     const extensions = [".jpg", ".JPG"];
     for (let i = 1; i <= 10; i++) {
       let found = false;
       for (const ext of extensions) {
         const url = `fotos_productos_3d/${productId}/${i}${ext}`;
-        try {
-          const response = await fetch(url, { method: 'HEAD' });
-          if (response.ok) {
-            productImages.push(url);
-            found = true;
-            break;
-          }
-        } catch (e) { }
+        const exists = await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = url;
+        });
+
+        if (exists) {
+          productImages.push(url);
+          found = true;
+          break;
+        }
       }
-      if (!found && i > 1) break; // Si no encuentra la imagen 2, 3... paramos.
+      if (!found && i > 1) break;
       if (!found && i === 1) {
-        // Backup si no encuentra ni la 1 (opcional)
-        productImages = ["icons/placeholder.png"];
+        productImages = ["https://via.placeholder.com/600x400?text=Imagen+no+disponible"];
       }
     }
   }
