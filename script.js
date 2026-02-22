@@ -92,9 +92,11 @@ async function openProduct(id) {
           break;
         }
       }
-      if (!found && i > 1) break;
-      if (!found && i === 1) {
-        productImages = ["https://via.placeholder.com/600x400?text=Imagen+no+disponible"];
+      if (!found) {
+        if (i === 1) {
+          productImages = ["https://via.placeholder.com/600x400?text=Imagen+no+disponible"];
+        }
+        break;
       }
     }
   }
