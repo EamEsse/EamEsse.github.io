@@ -59,7 +59,6 @@ async function openProduct(id) {
   };
 
   if (productId.startsWith("render")) {
-    productImages = [`fotos_renders/${productId}/1.jpg`];
     document.getElementById("product-title").innerText = "Render " + productId.replace("render", "");
     document.getElementById("product-desc").innerText = "Visualización 3D artística realizada con Blender/Cycles.";
     document.getElementById("product-link").style.display = "none";
@@ -72,32 +71,33 @@ async function openProduct(id) {
     document.getElementById("product-desc").innerText = data.desc;
     document.getElementById("product-link").href = "https://cults3d.com/";
     document.getElementById("product-link").style.display = "inline-block";
+  }
 
-    // CARGA DINÁMICA DE IMÁGENES
-    const extensions = [".jpg", ".JPG"];
-    for (let i = 1; i <= 10; i++) {
-      let found = false;
-      for (const ext of extensions) {
-        const url = `fotos_productos_3d/${productId}/${i}${ext}`;
-        const exists = await new Promise((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = url;
-        });
+  // CARGA DINÁMICA DE IMÁGENES
+  const basePath = productId.startsWith("render") ? "fotos_renders" : "fotos_productos_3d";
+  const extensions = [".jpg", ".JPG"];
+  for (let i = 1; i <= 10; i++) {
+    let found = false;
+    for (const ext of extensions) {
+      const url = `${basePath}/${productId}/${i}${ext}`;
+      const exists = await new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
 
-        if (exists) {
-          productImages.push(url);
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        if (i === 1) {
-          productImages = ["https://via.placeholder.com/600x400?text=Imagen+no+disponible"];
-        }
+      if (exists) {
+        productImages.push(url);
+        found = true;
         break;
       }
+    }
+    if (!found) {
+      if (i === 1) {
+        productImages = ["https://via.placeholder.com/600x400?text=Imagen+no+disponible"];
+      }
+      break;
     }
   }
 

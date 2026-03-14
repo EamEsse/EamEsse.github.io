@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Renders - EAM ESSE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="top-bar">
+            <a href="index.html" class="logo-left">
+                <img src="logo.png" alt="logo">
+                <img src="letras.png" alt="EAM ESSE">
+            </a>
+            <div class="social">
+                <a href="https://www.instagram.com/eam.esse/" target="_blank">
+                    <img src="icons/instagram.png">
+                </a>
+                <a href="https://www.tiktok.com/@eam.esse" target="_blank">
+                    <img src="icons/tiktok.png">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="module">
+        <div class="module-header">
+            <a href="index.html" style="text-decoration: none; color: black; font-weight: bold;">← Volver al inicio</a>
+            <h2>Renders</h2>
+            <div style="width: 100px;"></div> <!-- Spacer -->
+        </div>
+
+        <div class="module-grid full-grid">
+            <div class="module-card" onclick="openProduct('Render1')">
+                <img src="fotos_renders/render1/1.jpg">
+                <div class="overlay">Render Escenario 1</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Render2')">
+                <img src="fotos_renders/render2/1.jpg">
+                <div class="overlay">Render Personaje A</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Render3')">
+                <img src="fotos_renders/render3/1.jpg">
+                <div class="overlay">Render Concepto X</div>
+            </div>
+            <div class="module-card" onclick="openProduct('Render4')">
+                <img src="fotos_renders/render4/1.jpg" onerror="this.src='https://via.placeholder.com/600x400?text=Próximamente'">
+                <div class="overlay">Render 4</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VISTA PRODUCTO -->
+    <section id="product-view" class="product-view" style="display:none;">
+        <div id="backArrow" class="back-arrow" onclick="goBack()">← Volver</div>
+        <div class="product-layout">
+            <div class="product-images">
+                <div class="slider-container">
+                    <button class="slider-arrow prev" onclick="changeImage(-1)">❮</button>
+                    <img id="product-main-img" src="">
+                    <button class="slider-arrow next" onclick="changeImage(1)">❯</button>
+                </div>
+                <div id="product-thumbnails" class="product-thumbnails"></div>
+            </div>
+            <div class="product-info">
+                <h2 id="product-title"></h2>
+                <p id="product-desc"></p>
+                <a id="product-link" href="#" target="_blank">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
