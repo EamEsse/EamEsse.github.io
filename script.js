@@ -50,12 +50,16 @@ async function openProduct(id) {
 
   // Definir datos específicos si existen, sino usar genéricos
   const productData = {
-    "producto1": { title: "Funda para pendrive con forma de patita de gato", desc: "Una funda para pendrive con forma de patita de gato." },
-    "producto2": { title: "Marcapáginas", desc: "Marcapáginas con formas de gatitos." },
-    "producto3": { title: "Porta-anillos con forma de helado", desc: "Un simpático porta-anillos con forma de helado." },
-    "producto4": { title: "Soporte para auriculares minimalista", desc: "Un soporte elegante y minimalista para tus cascos." },
-    "producto5": { title: "Maceta geométrica decorativa", desc: "Una maceta con diseño geométrico moderno para tus plantas." },
-    "producto6": { title: "Llavero de pulpo articulado", desc: "Un divertido pulpo articulado impreso en una sola pieza." }
+    "producto1": { title: "Funda para Pendrive con Forma de Patita de Gato", desc: "Una funda con medida personalizada para transformar cualquier pendrive/ usb en una bonita pata de gato.", link: "https://cults3d.com/es/modelo-3d/artilugios/funda-pendrive-usb-pata-de-gato" },
+    "producto2": { title: "Marcapáginas con Forma de Gatos", desc: "Unos bonitos marcapáginas para tus libros con forma de diferentes gatitos, incluye una pequeña caja de almacenaje.", link: "https://cults3d.com/es/modelo-3d/variado/pack-marcapaginas-de-gatos" },
+    "producto3": { title: "Fidget \"Ouchie\", Juguete Sensorial", desc: "Un juguete sensorial con textura para aliviar el estrés.", link: "https://cults3d.com/es/modelo-3d/juegos/fidget-ouchie-juguete-sensorial" },
+    "producto4": { title: "Lapicero Ovni", desc: "Un lapicero con forma de platillo volante, perfecto para tener tus boligrafos en la mesa.", link: "https://cults3d.com/es/modelo-3d/casa/lapicero-ovni" },
+    "producto5": { title: "Cajones Modulares Apilables", desc: "Unos cajones modulares apilables, tiene diferentes módulos con diferentes tamaños de cajones, puedes usar y apilar tantos como quieras.", link: "https://cults3d.com/es/modelo-3d/casa/cajones-modulares-apilables" },
+    "producto6": { title: "Sujetalibro Portal de Tentáculos", desc: "Un soporte para el libro que quieras con temática de portal con tentáculos.", link: "https://cults3d.com/es/modelo-3d/casa/soporte-libro-eamesse" },
+    "producto7": { title: "Hacha con Estética Cute", desc: "Un hacha con estética cute \"magical girl\", perfecta para cosplay, sesiones de fotos o decoración.", link: "https://cults3d.com/es/modelo-3d/moda/hacha-cute-eamesse" },
+    "producto8": { title: "Porta-anillos con Forma de Helado Derretido", desc: "Guarda tus anillos en este portanillos con forma de helado derretido.", link: "https://cults3d.com/es/modelo-3d/joyas/helado-soporte-para-anillos-eamesse" },
+    "producto9": { title: "Cinturón de Estrellitas", desc: "Un cinturón con estrellitas.", link: "https://cults3d.com/es/modelo-3d/moda/cinturon-de-estrellas" },
+    "producto10": { title: "Posavasos con Forma de Tela de Araña", desc: "Unos posavasos con forma de tela de araña.", link: "https://cults3d.com/es/modelo-3d/variado/posavasos-tela-de-arana-eamesse" }
   };
 
   if (productId.startsWith("render")) {
@@ -65,11 +69,12 @@ async function openProduct(id) {
   } else {
     const data = productData[productId] || {
       title: "Producto " + productId.replace("producto", ""),
-      desc: "Diseño exclusivo de modelo para impresión 3D."
+      desc: "Diseño exclusivo de modelo para impresión 3D.",
+      link: "https://cults3d.com/"
     };
     document.getElementById("product-title").innerText = data.title;
     document.getElementById("product-desc").innerText = data.desc;
-    document.getElementById("product-link").href = "https://cults3d.com/";
+    document.getElementById("product-link").href = data.link;
     document.getElementById("product-link").style.display = "inline-block";
   }
 
