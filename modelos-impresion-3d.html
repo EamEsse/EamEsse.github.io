@@ -3,11 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modelos para impresión 3D de EAM ESSE: objetos, accesorios y pequeños diseños con personalidad.">
     <title>Modelos para Impresión 3D - EAM ESSE</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 
 <body>
+    <a class="skip-link" href="#galeria">Saltar al contenido</a>
 
     <!-- HEADER -->
     <header>
@@ -16,22 +19,29 @@
                 <img src="logo.png" alt="logo">
                 <img src="letras.png" alt="EAM ESSE">
             </a>
+            <nav class="site-nav" aria-label="Navegación principal">
+                <a href="index.html#proyectos">Proyectos</a>
+                <a href="index.html#sobre-mi">Sobre mí</a>
+                <a href="index.html#contacto">Contacto <span aria-hidden="true">↗</span></a>
+            </nav>
             <div class="social">
-                <a href="https://www.instagram.com/eam.esse/" target="_blank">
-                    <img src="icons/instagram.png">
+                <a href="https://www.instagram.com/eam.esse/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de EAM ESSE">
+                    <img src="icons/instagram.png" alt="" width="24" height="24">
                 </a>
-                <a href="https://www.tiktok.com/@eam.esse" target="_blank">
-                    <img src="icons/tiktok.png">
+                <a href="https://www.tiktok.com/@eam.esse" target="_blank" rel="noopener noreferrer" aria-label="TikTok de EAM ESSE">
+                    <img src="icons/tiktok.png" alt="" width="24" height="24">
                 </a>
             </div>
         </div>
     </header>
 
-    <section class="module">
-        <div class="module-header">
-            <a href="index.html" style="text-decoration: none; color: black; font-weight: bold;">← Volver al inicio</a>
-            <h2>Modelos para Impresión 3D</h2>
-            <div style="width: 100px;"></div> <!-- Spacer -->
+    <main id="galeria">
+    <section class="module" aria-labelledby="gallery-title">
+        <div class="catalog-heading">
+            <a class="text-link" href="index.html#proyectos">← Volver a los proyectos</a>
+            <p class="eyebrow">La colección / Impresión 3D</p>
+            <h1 id="gallery-title">Diseños con personalidad.</h1>
+            <p>Objetos para el día a día, accesorios y pequeños detalles. Explora los modelos, descubre sus imágenes y encuentra sus archivos en Cults3D.</p>
         </div>
 
         <div class="module-grid full-grid">
@@ -131,7 +141,7 @@
                 <div class="overlay">Cola Articulada</div>
             </div>
             <div class="module-card" onclick="openProduct('Producto24')">
-                <img src="fotos_productos_3d/producto24/1.jpg">
+                <img src="fotos_productos_3d/producto24/marcocam_1.png">
                 <div class="overlay">Marcos para Fotos con formas de Cámaras</div>
             </div>
             <div class="module-card" onclick="openProduct('Producto25')">
@@ -230,28 +240,32 @@
     </section>
 
     <!-- VISTA PRODUCTO -->
-    <section id="product-view" class="product-view" style="display:none;">
-        <div id="backArrow" class="back-arrow" onclick="goBack()">← Volver</div>
+    <section id="product-view" class="product-view" style="display:none;" aria-labelledby="product-title">
+        <button id="backArrow" class="back-arrow" onclick="goBack()">← Volver a la colección</button>
         <div class="product-layout">
             <div class="product-images">
                 <div class="slider-container">
-                    <button class="slider-arrow prev" onclick="changeImage(-1)">❮</button>
-                    <img id="product-main-img" src="">
-                    <button class="slider-arrow next" onclick="changeImage(1)">❯</button>
+                    <button class="slider-arrow prev" onclick="changeImage(-1)" aria-label="Imagen anterior">❮</button>
+                    <img id="product-main-img" alt="">
+                    <button class="slider-arrow next" onclick="changeImage(1)" aria-label="Imagen siguiente">❯</button>
                 </div>
                 <div id="product-thumbnails" class="product-thumbnails"></div>
             </div>
             <div class="product-info">
-                <h2 id="product-title"></h2>
+                <h2 id="product-title" tabindex="-1"></h2>
                 <p id="product-desc"></p>
-                <a id="product-link" href="#" target="_blank">
-                    <button class="buy-btn">Comprar</button>
-                </a>
+                <a id="product-link" class="buy-btn" href="#" target="_blank" rel="noopener noreferrer">Ver en Cults3D ↗</a>
             </div>
         </div>
     </section>
+    </main>
 
-    <script src="script.js"></script>
+    <footer class="site-footer">
+        <a class="footer-brand" href="index.html">EAM ESSE<span>Un pequeño universo creativo.</span></a>
+        <nav aria-label="Enlaces del pie"><a href="index.html#proyectos">Proyectos</a><a href="index.html#sobre-mi">Sobre mí</a><a href="index.html#contacto">Contacto</a></nav>
+        <span class="footer-credit">Diseño con personalidad <span aria-hidden="true">✳</span></span>
+    </footer>
+    <script src="script.js?v=6"></script>
 </body>
 
 </html>

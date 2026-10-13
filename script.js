@@ -39,16 +39,27 @@ if (nextBtn) {
 let productImages = [];
 let currentProductImgIndex = 0;
 let productRequest = 0;
+let portfolioScroll = 0;
+let lastProductTrigger = null;
+const imagePlaceholder = "icons/image-placeholder.svg";
 
 async function openProduct(id) {
+  if (document.getElementById("product-view").style.display === "none") {
+    portfolioScroll = window.scrollY;
+    lastProductTrigger = document.activeElement;
+  }
   const request = ++productRequest;
   const productId = id.toLowerCase();
   currentProductImgIndex = 0;
   productImages = [];
 
-  document.querySelectorAll(".module").forEach(m => m.style.display = "none");
+  document.querySelectorAll(".module, [data-portfolio]").forEach(m => m.style.display = "none");
   document.getElementById("product-view").style.display = "block";
   document.getElementById("backArrow").style.display = "block";
+  document.getElementById("product-main-img").src = imagePlaceholder;
+  document.getElementById("product-main-img").alt = "Cargando imágenes del proyecto";
+  document.getElementById("product-thumbnails").innerHTML = "";
+  document.querySelectorAll(".slider-arrow").forEach(arrow => arrow.style.display = "none");
   const applicationActions = document.getElementById("application-actions");
   if (applicationActions) applicationActions.hidden = productId !== "pixelandcraft";
 
@@ -59,6 +70,7 @@ async function openProduct(id) {
     productImages = ["pixel%26craft/assets/logopixelandcraft.png", "pixel%26craft/assets/dibujo.png?v=1.0.1", "pixel%26craft/assets/visualizador.png?v=1.0.1", "pixel%26craft/assets/trabajo.png?v=1.0.1"];
     updateMainImage();
     renderThumbnails();
+    focusProduct();
     return;
   }
 
@@ -129,13 +141,16 @@ async function openProduct(id) {
     }
   }
 
+  focusProduct();
+
   // CARGA DINÁMICA DE IMÁGENES
   const basePath = productId.startsWith("render") ? "fotos_renders" : "fotos_productos_3d";
-  const extensions = [".jpg", ".JPG"];
+  const extensions = productId === "producto24" ? [".png"] : [".jpg", ".JPG"];
   for (let i = 1; i <= 10; i++) {
     let found = false;
     for (const ext of extensions) {
-      const url = `${basePath}/${productId}/${i}${ext}`;
+      const fileName = productId === "producto24" ? `marcocam_${i}` : i;
+      const url = `${basePath}/${productId}/${fileName}${ext}`;
       const exists = await new Promise((resolve) => {
         const img = new Image();
         img.onload = () => resolve(true);
@@ -152,7 +167,7 @@ async function openProduct(id) {
     }
     if (!found) {
       if (i === 1) {
-        productImages = ["https://via.placeholder.com/600x400?text=Imagen+no+disponible"];
+        productImages = [imagePlaceholder];
       }
       break;
     }
@@ -160,6 +175,12 @@ async function openProduct(id) {
 
   updateMainImage();
   renderThumbnails();
+}
+
+function focusProduct() {
+  const title = document.getElementById("product-title");
+  title.focus({ preventScroll: true });
+  document.getElementById("product-view").scrollIntoView({ behavior: "instant", block: "start" });
 }
 
 function updateMainImage() {
@@ -185,15 +206,22 @@ function renderThumbnails() {
 
   container.style.display = "flex";
   productImages.forEach((img, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("aria-label", `Ver imagen ${index + 1}`);
+    button.setAttribute("aria-pressed", String(index === currentProductImgIndex));
+    button.classList.toggle("active", index === currentProductImgIndex);
     const thumb = document.createElement("img");
     thumb.src = img;
-    thumb.classList.toggle("active", index === currentProductImgIndex);
-    thumb.onclick = () => {
+    thumb.alt = "";
+    button.onclick = () => {
       currentProductImgIndex = index;
       updateMainImage();
       renderThumbnails();
+      container.children[index].focus({ preventScroll: true });
     };
-    container.appendChild(thumb);
+    button.appendChild(thumb);
+    container.appendChild(button);
   });
 }
 
@@ -205,11 +233,83 @@ function changeImage(step) {
   renderThumbnails();
 }
 
-function goBack() {
+function goBack(restorePosition = true) {
   productRequest++;
   document.getElementById("product-view").style.display = "none";
-  document.querySelectorAll(".module").forEach(m => m.style.display = "block");
+  document.querySelectorAll(".module, [data-portfolio]").forEach(m => m.style.removeProperty("display"));
   document.getElementById("backArrow").style.display = "none";
+  if (restorePosition) {
+    window.scrollTo({ top: portfolioScroll, behavior: "instant" });
+    if (lastProductTrigger) lastProductTrigger.focus({ preventScroll: true });
+  }
+}
+
+// Keep the existing galleries usable with a keyboard and on touchscreens.
+document.querySelectorAll(".module-card").forEach(card => {
+  const title = card.querySelector(".overlay").textContent.trim();
+  if (card.tagName !== "BUTTON") {
+    card.setAttribute("role", "button");
+    card.tabIndex = 0;
+    card.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        card.click();
+      }
+    });
+  }
+  card.setAttribute("aria-label", `Ver ${title}`);
+  card.addEventListener("click", () => { lastProductTrigger = card; });
+  const image = card.querySelector("img");
+  if (!image.hasAttribute("alt")) image.alt = title;
+  image.loading = "lazy";
+  image.addEventListener("error", () => { image.src = imagePlaceholder; }, { once: true });
+  if (image.complete && image.naturalWidth === 0) image.src = imagePlaceholder;
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener("click", () => {
+    if (document.getElementById("product-view").style.display !== "none") goBack(false);
+  });
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && document.getElementById("product-view").style.display !== "none") goBack();
+});
+
+const contactForm = document.getElementById("contact-form");
+if (contactForm) {
+  contactForm.addEventListener("submit", event => {
+    event.preventDefault();
+    if (!contactForm.reportValidity()) return;
+
+    const data = new FormData(contactForm);
+    const name = data.get("name").trim();
+    const email = data.get("email").trim();
+    const subject = data.get("subject").trim();
+    const message = data.get("message").trim();
+    if (!name || !subject || !message) {
+      const status = document.getElementById("contact-status");
+      status.textContent = "Completa el nombre, el asunto y el mensaje antes de abrir Gmail.";
+      status.hidden = false;
+      return;
+    }
+
+    const params = new URLSearchParams({
+      view: "cm",
+      fs: "1",
+      to: "eam.esse23@gmail.com",
+      su: `[EAM ESSE] ${subject}`,
+      body: `Hola,\n\n${message}\n\n—\nNombre: ${name}\nCorreo de contacto: ${email}`
+    });
+    const url = `https://mail.google.com/mail/?${params.toString()}`;
+    const draftLink = document.getElementById("contact-draft");
+    draftLink.href = url;
+    draftLink.hidden = false;
+    const status = document.getElementById("contact-status");
+    status.textContent = "Tu borrador está preparado. Si Gmail no se abre, utiliza el enlace de abajo. El mensaje se enviará cuando pulses «Enviar» en Gmail.";
+    status.hidden = false;
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
 }
 
 function showSection(sectionId) {
