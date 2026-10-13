@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pixel&Craft: editor de pixel art, capas y patrones para manualidades en tu navegador.">
+  <title>Pixel&amp;Craft</title>
+  <link rel="icon" href="assets/logopixelandcraft6.ico">
+  <link rel="stylesheet" href="app.css">
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="toolbar">
+    <a class="brand" href="../index.html" title="EAM ESSE"><img src="assets/logopixelandcraft2.png" alt="Pixel&Craft"></a>
+    <div class="file-actions">
+      <button id="new" data-i18n="new">Nuevo</button><button id="open" data-i18n="open">Abrir</button>
+      <button id="save" data-i18n="save">Guardar</button><button id="save-as" data-i18n="saveAs">Guardar como</button>
+      <button id="export" data-i18n="export">Exportar</button>
+    </div>
+    <div class="dimensions"><span data-i18n="size">Tamaño</span>
+      <input id="width" type="number" min="1" max="256" value="32" aria-label="Ancho" data-label="width"> ×
+      <input id="height" type="number" min="1" max="256" value="32" aria-label="Alto" data-label="height">
+      <button id="shape" class="icon-button" data-title="shape" title="Alternar forma cuadrada / circular">□</button>
+    </div>
+    <div class="utility"><button id="language" title="English / Español">EN</button>
+      <button id="help-button" aria-expanded="false" aria-controls="help" data-title="help" title="Ayuda">?</button></div>
+  </header>
+  <nav class="tabs" role="tablist" aria-label="Pixel&Craft">
+    <button id="tab-draw" role="tab" aria-selected="true" data-tab="draw"><span>✎</span> <span data-i18n="draw">Dibujo</span></button>
+    <button id="tab-preview" role="tab" aria-selected="false" data-tab="preview"><span>▧</span> <span data-i18n="preview">Visualizador</span></button>
+    <button id="tab-work" role="tab" aria-selected="false" data-tab="work"><span>✚</span> <span data-i18n="work">Trabajo</span></button>
+  </nav>
+  <main id="workspace" class="workspace draw" role="tabpanel" aria-labelledby="tab-draw">
+    <aside id="draw-sidebar" class="sidebar">
+      <section class="panel"><h2 data-i18n="tools">Herramientas</h2><div class="tools">
+        <button data-tool="pencil" class="selected" data-title="pencil" data-label="pencil"><span class="tool-icon pencil"></span></button>
+        <button data-tool="eraser" data-title="eraser" data-label="eraser"><span class="tool-icon eraser"></span></button>
+        <button data-tool="eyedropper" data-title="eyedropper" data-label="eyedropper"><span class="tool-icon eyedropper"></span></button>
+        <button data-tool="bucket" data-title="bucket" data-label="bucket"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10 10 4 19 13 13 19ZM4 10H16M7 7 6 6C4 4 5 2 7 2 8 2 9 3 10 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 13S17.5 16.5 17.5 18C17.5 21 22.5 21 22.5 18S20 13 20 13" fill="currentColor"/></svg></button>
+        <button id="clear-layer" data-title="clearLayer" data-label="clearLayer">⌫</button>
+      </div><p id="tool-label" class="muted">Lápiz seleccionado</p></section>
+      <section class="panel compact"><div class="panel-heading"><h2 data-i18n="size">Tamaño</h2><button id="brush-value" class="text-button" title="Doble clic para editar">1%</button></div>
+        <input id="brush-size" type="range" min="1" max="1000" value="1" data-label="brushSize"><div class="range-labels"><span>1%</span><span>1000%</span></div></section>
+      <section class="panel"><h2 data-i18n="currentColor">Color actual</h2><div class="current-color"><span id="current-swatch" class="swatch large"></span><div><code id="current-hex">#FF8B5CF6</code><p id="current-rgb" class="muted"></p></div></div></section>
+      <section class="panel"><h2 data-i18n="picker">Selector de color</h2>
+        <div id="sv-picker" class="sv-picker" tabindex="0" role="slider" aria-label="Saturación y brillo" data-label="sv"><span id="sv-dot"></span></div>
+        <input id="hue" class="hue" type="range" min="0" max="360" value="258" data-label="hue">
+        <label for="hex">Hex</label><input id="hex" type="text" maxlength="9" value="#FF8B5CF6" spellcheck="false">
+        <label for="alpha" data-i18n="transparency">Transparencia</label><input id="alpha" type="range" min="0" max="100" value="100">
+        <button id="save-color" class="accent full" data-i18n="saveColor">Guardar color</button>
+      </section>
+      <section class="panel"><h2 data-i18n="recent">Recientes</h2><div id="recent" class="swatches"></div><button id="clear-recent" class="small full" data-i18n="clearRecent">Limpiar recientes</button></section>
+      <section class="panel"><h2 data-i18n="saved">Guardados</h2><div id="saved" class="swatches"></div><div class="palette-actions"><button id="export-palette" class="accent" data-i18n="export">Exportar</button><button id="import-palette" class="outlined" data-i18n="import">Importar</button></div></section>
+    </aside>
+    <div id="canvas-stage" class="canvas-stage">
+      <canvas id="canvas" tabindex="0" data-label="canvas" aria-label="Lienzo de pixel art"></canvas>
+      <div class="view-buttons"><button id="fit" class="small" data-title="fit" data-i18n="fit">Centrar</button><output id="zoom">100%</output></div>
+      <div id="layers-dock" class="layers-dock"><button id="layers-toggle" class="small" aria-expanded="true" data-title="layers">⌄</button>
+        <div id="layers-modules"><section class="panel"><div class="panel-heading"><h2 data-i18n="layers">Capas</h2><button id="add-layer" class="small" data-title="addLayer">+</button></div><div id="layer-list"></div></section>
+          <section class="panel compact"><div class="panel-heading"><h2 data-i18n="opacity">Opacidad de capa</h2><output id="opacity-value">100%</output></div><input id="opacity" type="range" min="0" max="100" value="100" data-label="opacity"></section></div>
+      </div>
+    </div>
+    <aside id="preview-sidebar" class="sidebar right" hidden>
+      <section class="panel"><h2 data-i18n="viewOptions">Opciones de vista</h2>
+        <label class="switch-row"><span data-i18n="letterPattern">Patrón con letras</span><input type="checkbox" id="preview-letters"></label>
+        <label class="switch-row"><span data-i18n="countRows">Contar filas</span><input type="checkbox" id="preview-rows"></label>
+        <label class="switch-row"><span data-i18n="countColumns">Contar columnas</span><input type="checkbox" id="preview-columns"></label>
+        <label class="switch-row"><span data-i18n="grid">Cuadrícula</span><input type="checkbox" id="preview-grid"></label>
+        <hr><h2 data-i18n="usedPalette">Paleta usada</h2><div id="used-palette"></div>
+      </section>
+    </aside>
+    <aside id="work-sidebar" class="sidebar right" hidden><section class="panel">
+      <label class="switch-row"><span data-i18n="crossColor">Color cruz</span><input id="cross-color" type="color" value="#ff6347"></label>
+      <hr><label class="switch-row"><span data-i18n="numberColor">Color números</span><input id="number-color" type="color" value="#555555"></label>
+      <hr><label class="switch-row"><span data-i18n="letters">Letras</span><input type="checkbox" id="work-letters"></label><p class="muted" data-i18n="lettersHint">Muestra una letra para cada color.</p>
+      <hr><label class="switch-row"><span data-i18n="countRows">Contar filas</span><input type="checkbox" id="work-rows"></label><p class="muted" data-i18n="rowsHint">Numera las celdas consecutivas del mismo color por fila.</p>
+      <hr><label class="switch-row"><span data-i18n="countColumns">Contar columnas</span><input type="checkbox" id="work-columns"></label><p class="muted" data-i18n="columnsHint">Numera las celdas consecutivas del mismo color por columna.</p>
+      <hr><button id="clear-marks" class="full" data-i18n="clearMarks">Limpiar cruces</button>
+    </section></aside>
+  </main>
+  <footer><span id="status" role="status" aria-live="polite">Listo</span><span id="doc-info">32 × 32</span></footer>
+  <section id="help" class="help panel" hidden tabindex="0"><h2 data-i18n="help">Ayuda</h2><div id="help-content"></div></section>
+  <dialog id="prompt-dialog"><form method="dialog"><h2 id="prompt-title"></h2><p id="prompt-message"></p><input id="prompt-input" maxlength="80" hidden><div class="dialog-actions"><button value="cancel" data-i18n="cancel">Cancelar</button><button value="ok" class="accent" data-i18n="accept">Aceptar</button></div></form></dialog>
+  <dialog id="export-dialog"><div class="export-layout"><section><h2 data-i18n="exportTitle">Exportar imagen</h2>
+    <label for="export-name" data-i18n="filename">Nombre del archivo</label><input id="export-name" value="dibujo" maxlength="80">
+    <label for="export-scale" data-i18n="scale">Escala (píxeles por celda)</label><input id="export-scale" type="number" min="1" max="128" value="16">
+    <label class="switch-row"><span data-i18n="letters">Letras</span><input id="export-letters" type="checkbox"></label>
+    <label class="switch-row"><span data-i18n="grid">Cuadrícula</span><input id="export-grid" type="checkbox"></label>
+    <label class="switch-row"><span data-i18n="background">Fondo blanco</span><input id="export-background" type="checkbox"></label>
+    <label class="switch-row"><span data-i18n="countRows">Contar filas</span><input id="export-rows" type="checkbox"></label>
+    <label class="switch-row"><span data-i18n="countColumns">Contar columnas</span><input id="export-columns" type="checkbox"></label>
+    <label class="switch-row"><span data-i18n="showPalette">Incluir paleta</span><input id="export-palette-option" type="checkbox"></label>
+    <label class="switch-row"><span data-i18n="showCounts">Cantidad de cada color</span><input id="export-counts" type="checkbox"></label>
+    <p class="muted" data-i18n="exportHint">La foto de referencia no se exporta. Con letras, descarga también la leyenda .txt.</p>
+    <div class="dialog-actions"><button id="export-close" data-i18n="cancel">Cancelar</button><button id="export-download" class="accent" data-i18n="downloadPNG">Descargar PNG</button></div>
+    <button id="export-legend" class="outlined full" data-i18n="downloadLegend" hidden>Descargar leyenda .txt</button>
+  </section><section class="export-preview"><canvas id="export-canvas"></canvas><output id="export-info"></output></section></div></dialog>
+  <input id="project-file" type="file" accept=".pixeljson,.json" hidden>
+  <input id="palette-file" type="file" accept=".pixeljson,.json" hidden>
+  <input id="reference-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden>
+  <noscript>Pixel&amp;Craft necesita JavaScript para dibujar.</noscript>
+</body>
+</html>

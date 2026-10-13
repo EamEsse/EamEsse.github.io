@@ -1,0 +1,76 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const { Project, History, CLEAR, blend, counts, letters, palette } = require('./core.js');
+
+test('bucket uses active layer, four-way connectivity and one undoable action', () => {
+  const p = new Project(5, 5), h = new History(p);
+  for (let y = 0; y < 5; y++) p.set(2, y, '#FF112233');
+  p.Layers[0].hex.fill('#FF998877');
+  h.begin(p); p.fill(0, 0, '#FFABCDEF'); h.end(p);
+  assert.equal(p.active.hex[0], '#FFABCDEF');
+  assert.equal(p.active.hex[4], CLEAR);
+  assert.equal(p.Layers[0].hex[0], '#FF998877');
+  const undone = h.undo(p);
+  assert.equal(undone.active.hex[0], CLEAR);
+  assert.equal(undone.active.hex[2], '#FF112233');
+  assert.equal(h.redo(undone).active.hex[0], '#FFABCDEF');
+});
+test('movement survives off-canvas save/load, mask switches and return movement', () => {
+  const p = new Project(4, 4);
+  p.set(0, 0, '#FF010203'); p.move(-8, -3); p.Shape = 'Circle';
+  const loaded = Project.load(p.serialize());
+  assert.equal(loaded.active.outsidePixels.length, 1);
+  loaded.move(8, 3);
+  assert.equal(loaded.get(0, 0), CLEAR);
+  loaded.Shape = 'Square';
+  assert.equal(loaded.get(0, 0), '#FF010203');
+  assert.equal(loaded.active.outsidePixels.length, 0);
+});
+test('desktop schema round trips layers, ARGB, reference, saved names and marks', () => {
+  const fixture = { Width:2, Height:2, Shape:'Circle', ActiveLayer:1, Cells:[],
+    Layers:[{name:'Fondo',hex:['#00000000','#00FFFFFF','#00FFFFFF','#00FFFFFF'],visible:false,opacity:.5,defaultNameNumber:0},
+      {name:'Custom',hex:['#80445566','#00FFFFFF','#FFABCDEF','#FF445566'],visible:true,opacity:.8,defaultNameNumber:null,outsidePixels:[{x:-1,y:0,hex:'#FF000001'}]}],
+    Recent:['#FFABCDEF'], Saved:[{name:'Hilo lila',hex:'#FFABCDEF'}], Marks:[[0,0],[1,1]],
+    ReferenceImage:{data:'aGVsbG8=',x:-.5,y:1.25,width:3,height:4} };
+  const p = Project.load(fixture), data = JSON.parse(p.serialize());
+  assert.deepEqual(data.Saved,fixture.Saved); assert.deepEqual(data.ReferenceImage,fixture.ReferenceImage);
+  assert.deepEqual(data.Marks,fixture.Marks); assert.deepEqual(data.Layers[1],fixture.Layers[1]);
+  assert.equal(data.Layers[0].hex[0],CLEAR); assert.equal(data.ActiveLayer,1);
+  const legacy = Project.load({ Width:1,Height:1,Cells:['#336699'],Saved:['#123456'],Recent:[],Marks:[] });
+  assert.equal(legacy.get(0,0),'#FF336699');assert.deepEqual(legacy.Saved,[{name:'',hex:'#FF123456'}]);
+});
+test('composite respects layer order, visibility and fractional opacity', () => {
+  const p = new Project(1,1);p.Layers[0].hex[0]='#FFFF0000';p.active.hex[0]='#FF0000FF';p.active.opacity=.5;
+  assert.equal(p.get(0,0),'#FF800080');
+  p.addLayer();p.set(0,0,'#FF00FF00');assert.equal(p.get(0,0),'#FF00FF00');
+  p.reorder(2,1);assert.equal(p.get(0,0),'#FF008080');
+  p.Layers[2].visible=false;assert.equal(p.get(0,0),'#FF00FF00');
+  assert.equal(blend(CLEAR,'#80445566'), '#80445566');
+});
+test('square and circle masks preserve full cells and hidden stored data', () => {
+  const p = new Project(6,4);
+  assert.equal(p.contains(0,1),false);assert.equal(p.contains(1,0),true);assert.equal(p.contains(4,3),true);assert.equal(p.contains(5,1),false);
+  p.Shape='Circle';assert.equal(p.contains(0,1),true);assert.equal(p.contains(0,0),false);
+  p.set(0,1,'#FF111111');p.Shape='Square';assert.equal(p.get(0,1),CLEAR);
+  p.Shape='Circle';assert.equal(p.get(0,1),'#FF111111');
+});
+test('strokes interpolate fast drags and large brushes stay within contour', () => {
+  const p = new Project(8,8);p.stroke(0,0,7,7,1,'#FF123456');
+  for(let i=0;i<8;i++)assert.equal(p.get(i,i),'#FF123456');
+  p.Shape='Circle';p.stroke(4,4,4,4,1000,'#FFABCDEF');
+  assert.equal(p.active.hex[0],'#FF123456');assert.equal(p.get(0,0),CLEAR);assert.equal(p.get(4,4),'#FFABCDEF');
+});
+test('row/column runs reset at color changes and transparent gaps', () => {
+  const a='#FF112233',b='#FF445566',cells=[a,a,CLEAR,a,a,b];
+  assert.deepEqual(counts(cells,3,2,'row'),[1,2,0,1,2,1]);
+  assert.deepEqual(counts(cells,3,2,'column'),[1,1,0,2,2,1]);
+  assert.deepEqual([...letters(cells)],[[a,'A'],[b,'B']]);
+});
+test('resize and history keep background fixed and undo palette changes', () => {
+  const p = new Project(4,4),h=new History(p);p.set(3,3,'#FF112233');p.mark(3,3,false);
+  h.begin(p);p.resize(2,2);p.Saved.push({name:'A',hex:'#FF112233'});h.end(p);
+  assert.equal(p.Marks.length,0);const q=h.undo(p);assert.equal(q.Width,4);assert.equal(q.get(3,3),'#FF112233');assert.equal(q.Saved.length,0);
+  q.removeLayer(0);assert.equal(q.Layers[0].defaultNameNumber,0);
+  assert.deepEqual(palette({Saved:['#FF112233',{name:'duplicate',hex:'#FF112233'},'#00000000']}),[{name:'',hex:'#FF112233'}]);
+  assert.throws(()=>Project.load({Width:500,Height:2}));
+});

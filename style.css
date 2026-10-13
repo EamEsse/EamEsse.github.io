@@ -298,3 +298,18 @@ header {
 .product-info h2 {
   margin-top: 0;
 }
+
+.application-card { border: 1px solid #e5def5; padding: 14px; background: #f0eafa; }
+.application-card img { object-fit: contain; }
+.application-card:focus-visible { outline: 3px solid #8b5cf6; }
+.application-card:focus-visible .overlay { opacity: 1; }
+.application-actions:not([hidden]) { display: flex; flex-wrap: wrap; gap: 10px; }
+.application-actions .buy-btn { display: inline-block; text-decoration: none; font-size: 14px; }
+.application-actions .desktop-btn { background: #7052a8; }
+.application-actions small { width: 100%; color: #666; }
+.product-info p { line-height: 1.65; }
+@media (max-width: 760px) {
+  .module, .product-view { margin: 35px 16px; padding: 20px; }
+  .module-grid, .module-grid.full-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-layout { flex-direction: column; gap: 24px; }
+}

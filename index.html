@@ -3,8 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EAM ESSE</title>
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
@@ -37,6 +38,17 @@
 
   </header>
 
+
+  <!-- APLICACIONES -->
+  <section class="module">
+    <div class="module-header"><h2>Aplicaciones</h2></div>
+    <div class="module-grid">
+      <button class="module-card application-card" onclick="openProduct('PixelAndCraft')" aria-label="Ver Pixel&Craft">
+        <img src="pixel%26craft/assets/logopixelandcraft.png" alt="Pixel&Craft">
+        <span class="overlay">Pixel&amp;Craft</span>
+      </button>
+    </div>
+  </section>
 
   <!-- MODULO IMPRESION 3D -->
   <section class="module">
@@ -131,6 +143,11 @@
       <div class="product-info">
         <h2 id="product-title"></h2>
         <p id="product-desc"></p>
+        <div id="application-actions" class="application-actions" hidden>
+          <a class="buy-btn" href="pixel%26craft/">Usar en web</a>
+          <a class="buy-btn desktop-btn" href="https://github.com/EamEsse/EamEsse.github.io/releases/latest/download/Pixel%26Craft.exe">Descargar versión de escritorio</a>
+          <small>Versión de escritorio para Windows x64 · 141 MB</small>
+        </div>
         <a id="product-link" href="#" target="_blank">
           <button class="buy-btn">Comprar</button>
         </a>
@@ -155,7 +172,7 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=3"></script>
 </body>
 
 </html>

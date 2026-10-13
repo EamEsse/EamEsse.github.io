@@ -38,8 +38,10 @@ if (nextBtn) {
 
 let productImages = [];
 let currentProductImgIndex = 0;
+let productRequest = 0;
 
 async function openProduct(id) {
+  const request = ++productRequest;
   const productId = id.toLowerCase();
   currentProductImgIndex = 0;
   productImages = [];
@@ -47,6 +49,18 @@ async function openProduct(id) {
   document.querySelectorAll(".module").forEach(m => m.style.display = "none");
   document.getElementById("product-view").style.display = "block";
   document.getElementById("backArrow").style.display = "block";
+  const applicationActions = document.getElementById("application-actions");
+  if (applicationActions) applicationActions.hidden = productId !== "pixelandcraft";
+
+  if (productId === "pixelandcraft") {
+    document.getElementById("product-title").innerText = "Pixel&Craft";
+    document.getElementById("product-desc").innerText = "Crea dibujos pixel art y convierte tus diseños en patrones para tus proyectos creativos. Dibuja con lápiz, goma, cuentagotas y cubo de relleno; trabaja con capas, paletas de colores y fotos de referencia. Las pestañas Visualizador y Trabajo permiten ver el resultado, contar filas y columnas y marcar tu progreso con cruces. Guarda tus proyectos .pixeljson y exporta imágenes PNG o patrones con letras. Disponible en español e inglés, en tu navegador o como aplicación para Windows.";
+    document.getElementById("product-link").style.display = "none";
+    productImages = ["pixel%26craft/assets/logopixelandcraft.png", "pixel%26craft/assets/dibujo.png", "pixel%26craft/assets/visualizador.png", "pixel%26craft/assets/trabajo.png"];
+    updateMainImage();
+    renderThumbnails();
+    return;
+  }
 
   // Definir datos específicos si existen, sino usar genéricos
   const productData = {
@@ -128,6 +142,7 @@ async function openProduct(id) {
         img.onerror = () => resolve(false);
         img.src = url;
       });
+      if (request !== productRequest) return;
 
       if (exists) {
         productImages.push(url);
@@ -150,6 +165,7 @@ async function openProduct(id) {
 function updateMainImage() {
   const mainImg = document.getElementById("product-main-img");
   mainImg.src = productImages[currentProductImgIndex];
+  mainImg.alt = document.getElementById("product-title").innerText;
 
   // Ocultar flechas si solo hay una imagen
   const arrows = document.querySelectorAll(".slider-arrow");
@@ -190,6 +206,7 @@ function changeImage(step) {
 }
 
 function goBack() {
+  productRequest++;
   document.getElementById("product-view").style.display = "none";
   document.querySelectorAll(".module").forEach(m => m.style.display = "block");
   document.getElementById("backArrow").style.display = "none";
