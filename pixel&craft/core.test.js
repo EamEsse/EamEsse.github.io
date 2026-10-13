@@ -74,3 +74,14 @@ test('resize and history keep background fixed and undo palette changes', () => 
   assert.deepEqual(palette({Saved:['#FF112233',{name:'duplicate',hex:'#FF112233'},'#00000000']}),[{name:'',hex:'#FF112233'}]);
   assert.throws(()=>Project.load({Width:500,Height:2}));
 });
+
+test('redo commits an in-progress edit and cannot replay the discarded branch', () => {
+  let p = new Project(4,4);const h=new History(p);
+  h.begin(p);p.set(1,1,'#FF112233');h.end(p);
+  p=h.undo(p);assert.equal(h.future.length,1);
+  h.begin(p);p.set(2,2,'#FF445566');
+  p=h.redo(p);
+  assert.equal(p.get(1,1),CLEAR);assert.equal(p.get(2,2),'#FF445566');assert.equal(h.future.length,0);
+  p=h.undo(p);assert.equal(p.get(2,2),CLEAR);
+  p=h.redo(p);assert.equal(p.get(2,2),'#FF445566');
+});

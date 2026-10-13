@@ -175,7 +175,7 @@
       while (this.past.length > 1 && (this.past.length > 100 || this.bytes > 64 * 1024 * 1024)) this.bytes -= this.past.shift().length * 2;
     }
     undo(p) { this.end(p); const s = this.past.pop(); if (!s) return p; this.bytes -= s.length * 2; this.future.push(p.serialize()); return Project.load(s); }
-    redo(p) { const s = this.future.pop(); if (!s) return p; const before = p.serialize(); this.past.push(before); this.bytes += before.length * 2; return Project.load(s); }
+    redo(p) { this.end(p); const s = this.future.pop(); if (!s) return p; const before = p.serialize(); this.past.push(before); this.bytes += before.length * 2; return Project.load(s); }
     dirty(p) { return p.serialize() !== this.saved; }
   }
   const api = { Project, History, CLEAR, color, rgba, hex, css, blend, palette, letters, counts, clamp };

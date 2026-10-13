@@ -6,14 +6,16 @@
   <meta name="description" content="Pixel&Craft: editor de pixel art, capas y patrones para manualidades en tu navegador.">
   <title>Pixel&amp;Craft</title>
   <link rel="icon" href="assets/logopixelandcraft6.ico">
-  <link rel="stylesheet" href="app.css">
-  <script defer src="core.js"></script>
-  <script defer src="app.js"></script>
+  <link rel="stylesheet" href="app.css?v=1.0.0">
+  <script defer src="core.js?v=1.0.0"></script>
+  <script defer src="app.js?v=1.0.0"></script>
 </head>
 <body>
   <header class="toolbar">
     <a class="brand" href="../index.html" title="EAM ESSE"><img src="assets/logopixelandcraft2.png" alt="Pixel&Craft"></a>
     <div class="file-actions">
+      <button id="undo" class="history-button" disabled data-title="undoTip" data-label="undoAction">↶</button>
+      <button id="redo" class="history-button" disabled data-title="redoTip" data-label="redoAction">↷</button>
       <button id="new" data-i18n="new">Nuevo</button><button id="open" data-i18n="open">Abrir</button>
       <button id="save" data-i18n="save">Guardar</button><button id="save-as" data-i18n="saveAs">Guardar como</button>
       <button id="export" data-i18n="export">Exportar</button>
@@ -40,8 +42,11 @@
         <button data-tool="bucket" data-title="bucket" data-label="bucket"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10 10 4 19 13 13 19ZM4 10H16M7 7 6 6C4 4 5 2 7 2 8 2 9 3 10 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 13S17.5 16.5 17.5 18C17.5 21 22.5 21 22.5 18S20 13 20 13" fill="currentColor"/></svg></button>
         <button id="clear-layer" data-title="clearLayer" data-label="clearLayer">⌫</button>
       </div><p id="tool-label" class="muted">Lápiz seleccionado</p></section>
-      <section class="panel compact"><div class="panel-heading"><h2 data-i18n="size">Tamaño</h2><button id="brush-value" class="text-button" title="Doble clic para editar">1%</button></div>
-        <input id="brush-size" type="range" min="1" max="1000" value="1" data-label="brushSize"><div class="range-labels"><span>1%</span><span>1000%</span></div></section>
+      <section class="panel compact"><div class="panel-heading"><h2 data-i18n="size">Tamaño</h2><div class="brush-number"><button id="brush-value" class="text-button" title="Doble clic para editar">1%</button><div class="brush-arrows">
+        <button id="brush-up" data-title="increaseSize" data-label="increaseSize">▴</button>
+        <button id="brush-down" data-title="decreaseSize" data-label="decreaseSize">▾</button>
+      </div></div></div>
+        <input id="brush-size" type="range" min="1" max="1000" step="1" value="1" data-label="brushSize"><div class="range-labels"><span>1%</span><span>1000%</span></div></section>
       <section class="panel"><h2 data-i18n="currentColor">Color actual</h2><div class="current-color"><span id="current-swatch" class="swatch large"></span><div><code id="current-hex">#FF8B5CF6</code><p id="current-rgb" class="muted"></p></div></div></section>
       <section class="panel"><h2 data-i18n="picker">Selector de color</h2>
         <div id="sv-picker" class="sv-picker" tabindex="0" role="slider" aria-label="Saturación y brillo" data-label="sv"><span id="sv-dot"></span></div>

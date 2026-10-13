@@ -56,7 +56,7 @@ async function openProduct(id) {
     document.getElementById("product-title").innerText = "Pixel&Craft";
     document.getElementById("product-desc").innerText = "Crea dibujos pixel art y convierte tus diseños en patrones para tus proyectos creativos. Dibuja con lápiz, goma, cuentagotas y cubo de relleno; trabaja con capas, paletas de colores y fotos de referencia. Las pestañas Visualizador y Trabajo permiten ver el resultado, contar filas y columnas y marcar tu progreso con cruces. Guarda tus proyectos .pixeljson y exporta imágenes PNG o patrones con letras. Disponible en español e inglés, en tu navegador o como aplicación para Windows.";
     document.getElementById("product-link").style.display = "none";
-    productImages = ["pixel%26craft/assets/logopixelandcraft.png", "pixel%26craft/assets/dibujo.png", "pixel%26craft/assets/visualizador.png", "pixel%26craft/assets/trabajo.png"];
+    productImages = ["pixel%26craft/assets/logopixelandcraft.png", "pixel%26craft/assets/dibujo.png?v=1.0.0", "pixel%26craft/assets/visualizador.png?v=1.0.0", "pixel%26craft/assets/trabajo.png?v=1.0.0"];
     updateMainImage();
     renderThumbnails();
     return;

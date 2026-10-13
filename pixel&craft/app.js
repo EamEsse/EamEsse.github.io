@@ -22,15 +22,17 @@
       imageError:'No se pudo abrir la imagen de referencia', maxLayers:'Puedes tener hasta 32 capas.', visibility:'Mostrar / ocultar capa', remove:'Eliminar',
       reference:'Cargar o reemplazar foto de referencia', rename:'Cambiar nombre', copy:'Copiar código', colorMenu:'Opciones del color',
       undo:'Cambio deshecho', redo:'Cambio rehecho', nothingUndo:'No hay cambios que deshacer', nothingRedo:'No hay cambios que rehacer',
+      undoAction:'Deshacer', redoAction:'Rehacer', undoTip:'Deshacer (Ctrl + Z)', redoTip:'Rehacer (Ctrl + Y / Ctrl + Mayús + Z)',
+      increaseSize:'Aumentar tamaño en 1%', decreaseSize:'Reducir tamaño en 1%',
       exportLarge:'La imagen es demasiado grande. Reduce la escala (máximo 25 millones de píxeles).', lettersLimit:'El patrón con letras admite hasta 52 colores. Reduce la paleta.',
       paletteLoaded:'Paleta importada', copied:'Código copiado', drawing:'dibujo', palette:'paleta', dragLayer:'Arrastra para ordenar; doble clic para cambiar nombre',
       helpCommon:['Nuevo crea un documento con el tamaño actual. Abrir y Guardar usan .pixeljson compatible con el programa de escritorio.',
         'Guardar descarga el proyecto a tu dispositivo. Guardar como y Exportar abren las opciones PNG y la leyenda de letras.',
-        'Ctrl+Z: deshacer. Ctrl+Y o Ctrl+Mayús+Z: rehacer. Ctrl+S: guardar. La edición de texto conserva sus propios atajos.',
+        'Botones ↶ / ↷ o Ctrl+Z: deshacer; Ctrl+Y o Ctrl+Mayús+Z: rehacer. Ctrl+S: guardar. La edición de texto conserva sus propios atajos.',
         'Rueda: zoom. Botón central o Espacio + arrastrar: mover la vista. Centrar ajusta el lienzo. En pantallas táctiles, selecciona una herramienta y arrastra para pintar.',
         'Forma alterna cuadrado / círculo. El cuadrado usa el lado menor; un círculo con ancho y alto distintos se convierte en óvalo. Se conservan los píxeles ocultos.'],
       helpDraw:['Lápiz, goma, cuentagotas y cubo de relleno. El botón derecho borra. El cubo rellena solo la zona conectada del mismo color de la capa activa.',
-        'El lápiz y la goma tienen tamaños independientes (1–1000). Doble clic en el porcentaje o en la barra para escribir el tamaño.',
+        'El lápiz y la goma tienen tamaños independientes (1–1000). Las flechas junto al porcentaje cambian el tamaño de uno en uno; mantenerlas pulsadas repite el ajuste. Doble clic en el porcentaje o en la barra para escribir el tamaño.',
         'Flechas con el lienzo enfocado: mover un píxel la capa activa. Los píxeles que salen se conservan y reaparecen al volver.',
         'Capas: + añade; − elimina; el ojo muestra u oculta. Arrastra un nombre para ordenar, o haz doble clic para renombrar. Fondo está fijo abajo.',
         'El + de Fondo carga una foto para calcar. Con Fondo seleccionado, arrastra para moverla y usa la rueda para cambiar su tamaño. Ctrl+rueda hace zoom. El cuentagotas también toma colores de la foto.',
@@ -55,15 +57,17 @@
       error:'The operation could not be completed', invalidHex:'Invalid HEX. Use #RRGGBB or #AARRGGBB.', invalidProject:'Invalid project file',
       imageError:'Could not open reference image', maxLayers:'You can have up to 32 layers.', visibility:'Show / hide layer', remove:'Delete', reference:'Load or replace reference photo',
       rename:'Rename', copy:'Copy code', colorMenu:'Color options', undo:'Change undone', redo:'Change redone', nothingUndo:'Nothing to undo', nothingRedo:'Nothing to redo',
+      undoAction:'Undo', redoAction:'Redo', undoTip:'Undo (Ctrl + Z)', redoTip:'Redo (Ctrl + Y / Ctrl + Shift + Z)',
+      increaseSize:'Increase size by 1%', decreaseSize:'Decrease size by 1%',
       exportLarge:'Image too large. Reduce the scale (maximum 25 million pixels).', lettersLimit:'Letter patterns support up to 52 colors. Reduce the palette.',
       paletteLoaded:'Palette imported', copied:'Code copied', drawing:'drawing', palette:'palette', dragLayer:'Drag to reorder; double-click to rename',
       helpCommon:['New creates a document using the current size. Open and Save use .pixeljson, compatible with the desktop app.',
         'Save downloads the project to your device. Save as and Export open PNG options and the letter legend.',
-        'Ctrl+Z: undo. Ctrl+Y or Ctrl+Shift+Z: redo. Ctrl+S: save. Text fields keep their own editing shortcuts.',
+        'Buttons ↶ / ↷ or Ctrl+Z: undo; Ctrl+Y or Ctrl+Shift+Z: redo. Ctrl+S: save. Text fields keep their own editing shortcuts.',
         'Mouse wheel: zoom. Middle button or Space + drag: pan. Fit centers the canvas. On touchscreens, choose a tool and drag to paint.',
         'Shape toggles square / circle. Squares use the shorter side; circles become ellipses when width and height differ. Hidden pixels are preserved.'],
       helpDraw:['Pencil, eraser, eyedropper and fill bucket. Right button erases. Bucket fills only the connected same-color region of the active layer.',
-        'Pencil and eraser have independent sizes (1–1000). Double-click the percentage or slider to enter the size.',
+        'Pencil and eraser have independent sizes (1–1000). The arrows next to the percentage adjust by one; hold to repeat. Double-click the percentage or slider to enter the size.',
         'Arrow keys with the canvas focused: move the active layer by one pixel. Off-canvas pixels are kept and reappear when moved back.',
         'Layers: + adds; − deletes; the eye toggles visibility. Drag a name to reorder; double-click to rename. Background stays at the bottom.',
         'The Background + loads a tracing photo. With Background selected, drag to move it; wheel resizes it. Ctrl+wheel zooms the canvas. Eyedropper also samples the photo.',
@@ -117,8 +121,9 @@
     $('doc-info').textContent = `${project.Width} × ${project.Height} · ${name || t('untitled')}${history.dirty(project) ? ' *' : ''}`;
     document.title = `${name || t('untitled')}${history.dirty(project) ? ' *' : ''} – Pixel&Craft`;
     $('tool-label').textContent = `${t(tool)} ${t('selected')}`;
-    $('brush-size').disabled = !['pencil','eraser'].includes(tool); $('brush-value').disabled = $('brush-size').disabled;
-    $('brush-size').value = tool === 'eraser' ? eraser : brush; $('brush-value').textContent = $('brush-size').value + '%';
+    syncBrushSize();
+    $('undo').disabled = !history.past.length;
+    $('redo').disabled = !history.future.length;
     $('opacity').value = project.active.opacity * 100; $('opacity-value').textContent = Math.round(project.active.opacity * 100) + '%';
     renderLayers(); renderPalettes(); renderUsed(); schedule();
   }
@@ -279,7 +284,26 @@
   document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{
     endPointer();tool=b.dataset.tool;document.querySelectorAll('[data-tool]').forEach(bt=>bt.classList.toggle('selected',bt===b));refresh();
   });
-  $('brush-size').oninput=()=>{if(tool==='eraser')eraser=+$('brush-size').value;else brush=+$('brush-size').value;$('brush-value').textContent=$('brush-size').value+'%';};
+  function syncBrushSize() {
+    const enabled=['pencil','eraser'].includes(tool),size=tool==='eraser'?eraser:brush;
+    $('brush-size').disabled=!enabled;$('brush-value').disabled=!enabled;
+    $('brush-size').value=size;$('brush-value').textContent=size+'%';
+    $('brush-up').disabled=!enabled||size>=1000;$('brush-down').disabled=!enabled||size<=1;
+  }
+  function setBrushSize(value) {
+    if(!['pencil','eraser'].includes(tool))return;
+    const size=C.clamp(Math.round(value),1,1000);if(tool==='eraser')eraser=size;else brush=size;syncBrushSize();
+  }
+  $('brush-size').oninput=()=>setBrushSize(+$('brush-size').value);
+  let brushRepeat=null,brushDelay=null;
+  function stopBrushRepeat() {clearTimeout(brushDelay);clearInterval(brushRepeat);brushDelay=brushRepeat=null;}
+  for(const [id,delta] of [['brush-up',1],['brush-down',-1]]) {
+    const button=$(id),step=()=>{if(!button.disabled)setBrushSize((tool==='eraser'?eraser:brush)+delta);};
+    button.onclick=e=>{if(e.detail===0)step();};
+    button.onpointerdown=e=>{if(e.button!==0||button.disabled)return;e.preventDefault();stopBrushRepeat();button.setPointerCapture(e.pointerId);step();brushDelay=setTimeout(()=>brushRepeat=setInterval(step,100),400);};
+    for(const event of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(event,stopBrushRepeat);
+  }
+  window.addEventListener('blur',stopBrushRepeat);
   async function editBrush() {if($('brush-size').disabled)return;const v=await request(t('brushSize'),t('brushPrompt'),String(tool==='eraser'?eraser:brush));if(v!==null&&Number.isFinite(+v)) {const n=C.clamp(Math.round(+v),1,1000);if(tool==='eraser')eraser=n;else brush=n;refresh();}}
   $('brush-value').ondblclick=editBrush;$('brush-size').ondblclick=editBrush;$('brush-value').onclick=e=>{if(e.detail===0)editBrush();};
   function hsvRGB(h,s,v) {
@@ -454,6 +478,7 @@
   function undo(redo=false) {
     endPointer();const available=redo?history.future.length:history.past.length;project=redo?history.redo(project):history.undo(project);syncReference();refresh();status(available?redo?'redo':'undo':redo?'nothingRedo':'nothingUndo');
   }
+  $('undo').onclick=()=>undo(false);$('redo').onclick=()=>undo(true);
   window.addEventListener('keydown',e=>{
     const editable=e.target.matches('input,textarea,[contenteditable=true]');
     if(e.key==='Escape'){space=false;$('help').hidden=true;$('help-button').setAttribute('aria-expanded','false');draggedLayer=null;return;}
