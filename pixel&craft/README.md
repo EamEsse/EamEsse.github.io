@@ -19,9 +19,9 @@ En el navegador, **Guardar** descarga el proyecto; no sobrescribe automáticamen
 
 El botón del sitio apunta directamente a:
 
-`https://github.com/EamEsse/EamEsse.github.io/releases/latest/download/Pixel%26Craft.exe`
+`https://github.com/EamEsse/EamEsse.github.io/releases/latest/download/Pixel.Craft.exe`
 
-Para activarlo, crear una Release publicada (no borrador ni prerelease) en https://github.com/EamEsse/EamEsse.github.io/releases y adjuntar el ejecutable **con el nombre exacto `Pixel&Craft.exe`**.
+La [Release v1.0.0](https://github.com/EamEsse/EamEsse.github.io/releases/tag/v1.0.0) incluye el ejecutable actualizado. GitHub normaliza el nombre del asset de `Pixel&Craft.exe` a **`Pixel.Craft.exe`**, por eso el enlace de descarga utiliza ese nombre.
 
 Archivo actual: `C:\Users\Sara\Desktop\pixel\dist\Pixel&Craft\Pixel&Craft.exe` (versión 1.0.0, 140.780.608 bytes; Windows x64, incluye .NET).
 
