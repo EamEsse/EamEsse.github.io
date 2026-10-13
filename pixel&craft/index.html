@@ -6,16 +6,14 @@
   <meta name="description" content="Pixel&Craft: editor de pixel art, capas y patrones para manualidades en tu navegador.">
   <title>Pixel&amp;Craft</title>
   <link rel="icon" href="assets/logopixelandcraft6.ico">
-  <link rel="stylesheet" href="app.css?v=1.0.0">
-  <script defer src="core.js?v=1.0.0"></script>
-  <script defer src="app.js?v=1.0.0"></script>
+  <link rel="stylesheet" href="app.css?v=1.0.1">
+  <script defer src="core.js?v=1.0.1"></script>
+  <script defer src="app.js?v=1.0.1"></script>
 </head>
 <body>
   <header class="toolbar">
     <a class="brand" href="../index.html" title="EAM ESSE"><img src="assets/logopixelandcraft2.png" alt="Pixel&Craft"></a>
     <div class="file-actions">
-      <button id="undo" class="history-button" disabled data-title="undoTip" data-label="undoAction">↶</button>
-      <button id="redo" class="history-button" disabled data-title="redoTip" data-label="redoAction">↷</button>
       <button id="new" data-i18n="new">Nuevo</button><button id="open" data-i18n="open">Abrir</button>
       <button id="save" data-i18n="save">Guardar</button><button id="save-as" data-i18n="saveAs">Guardar como</button>
       <button id="export" data-i18n="export">Exportar</button>
@@ -28,11 +26,17 @@
     <div class="utility"><button id="language" title="English / Español">EN</button>
       <button id="help-button" aria-expanded="false" aria-controls="help" data-title="help" title="Ayuda">?</button></div>
   </header>
+  <div class="tabs-bar">
   <nav class="tabs" role="tablist" aria-label="Pixel&Craft">
     <button id="tab-draw" role="tab" aria-selected="true" data-tab="draw"><span>✎</span> <span data-i18n="draw">Dibujo</span></button>
     <button id="tab-preview" role="tab" aria-selected="false" data-tab="preview"><span>▧</span> <span data-i18n="preview">Visualizador</span></button>
     <button id="tab-work" role="tab" aria-selected="false" data-tab="work"><span>✚</span> <span data-i18n="work">Trabajo</span></button>
   </nav>
+  <div class="history-actions" role="group" aria-label="Historial" data-label="history">
+    <button id="undo" class="history-button" disabled data-title="undoTip" data-label="undoAction">↶</button>
+    <button id="redo" class="history-button" disabled data-title="redoTip" data-label="redoAction">↷</button>
+  </div>
+  </div>
   <main id="workspace" class="workspace draw" role="tabpanel" aria-labelledby="tab-draw">
     <aside id="draw-sidebar" class="sidebar">
       <section class="panel"><h2 data-i18n="tools">Herramientas</h2><div class="tools">
@@ -46,7 +50,7 @@
         <button id="brush-up" data-title="increaseSize" data-label="increaseSize">▴</button>
         <button id="brush-down" data-title="decreaseSize" data-label="decreaseSize">▾</button>
       </div></div></div>
-        <input id="brush-size" type="range" min="1" max="1000" step="1" value="1" data-label="brushSize"><div class="range-labels"><span>1%</span><span>1000%</span></div></section>
+        <input id="brush-size" type="range" min="1" max="1000" step="1" value="1" data-label="brushSize"><div class="range-labels"><span>1%</span><output id="brush-readout">1%</output><span>1000%</span></div></section>
       <section class="panel"><h2 data-i18n="currentColor">Color actual</h2><div class="current-color"><span id="current-swatch" class="swatch large"></span><div><code id="current-hex">#FF8B5CF6</code><p id="current-rgb" class="muted"></p></div></div></section>
       <section class="panel"><h2 data-i18n="picker">Selector de color</h2>
         <div id="sv-picker" class="sv-picker" tabindex="0" role="slider" aria-label="Saturación y brillo" data-label="sv"><span id="sv-dot"></span></div>
