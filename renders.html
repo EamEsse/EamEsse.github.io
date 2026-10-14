@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Explora la galería de renders y escenas 3D de EAM ESSE.">
     <title>Renders - EAM ESSE</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f4">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17171b">
+    <script src="theme.js?v=7"></script>
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 
 <body>
@@ -25,6 +29,7 @@
                 <a href="index.html#contacto">Contacto <span aria-hidden="true">↗</span></a>
             </nav>
             <div class="social">
+                <label class="theme-control"><span>Tema</span><select data-theme-select aria-label="Tema de la web"><option value="system">Sistema</option><option value="light">Claro</option><option value="dark">Oscuro</option></select></label>
                 <a href="https://www.instagram.com/eam.esse/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de EAM ESSE">
                     <img src="icons/instagram.png" alt="" width="24" height="24">
                 </a>
@@ -40,26 +45,26 @@
         <div class="catalog-heading">
             <a class="text-link" href="index.html#proyectos">← Volver a los proyectos</a>
             <p class="eyebrow">Exploración visual / Galería 3D</p>
-            <h1 id="gallery-title">Otras formas de mirar.</h1>
+            <h1 id="gallery-title">Renders y espacios 3D</h1>
             <p>Una selección de renders para explorar escenas, materiales y luz. Abre cada proyecto para descubrir sus imágenes.</p>
         </div>
 
         <div class="module-grid full-grid">
-            <div class="module-card" onclick="openProduct('Render1')">
+            <div class="module-card" data-render="render1" onclick="openProduct('Render1')">
                 <img src="fotos_renders/render1/1.jpg">
-                <div class="overlay">Render Escenario 1</div>
+                <div class="overlay">Baño</div>
             </div>
-            <div class="module-card" onclick="openProduct('Render2')">
+            <div class="module-card" data-render="render2" onclick="openProduct('Render2')">
                 <img src="fotos_renders/render2/1.jpg">
-                <div class="overlay">Render Personaje A</div>
+                <div class="overlay">Oficinas</div>
             </div>
-            <div class="module-card" onclick="openProduct('Render3')">
+            <div class="module-card" data-render="render3" onclick="openProduct('Render3')">
                 <img src="fotos_renders/render3/1.jpg">
-                <div class="overlay">Render Concepto X</div>
+                <div class="overlay">Cabaña</div>
             </div>
-            <div class="module-card" onclick="openProduct('Render4')">
+            <div class="module-card" data-render="render4" onclick="openProduct('Render4')">
                 <img src="fotos_renders/render4/1.jpg">
-                <div class="overlay">Render 4</div>
+                <div class="overlay">Casa</div>
             </div>
         </div>
     </section>
@@ -86,11 +91,11 @@
     </main>
 
     <footer class="site-footer">
-        <a class="footer-brand" href="index.html">EAM ESSE<span>Un pequeño universo creativo.</span></a>
+        <a class="footer-brand" href="index.html">EAM ESSE<span>Diseño 3D y aplicaciones.</span></a>
         <nav aria-label="Enlaces del pie"><a href="index.html#proyectos">Proyectos</a><a href="index.html#sobre-mi">Sobre mí</a><a href="index.html#contacto">Contacto</a></nav>
         <span class="footer-credit">Diseño con personalidad <span aria-hidden="true">✳</span></span>
     </footer>
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=7"></script>
 </body>
 
 </html>

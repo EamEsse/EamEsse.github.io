@@ -42,6 +42,28 @@ let productRequest = 0;
 let portfolioScroll = 0;
 let lastProductTrigger = null;
 const imagePlaceholder = "icons/image-placeholder.svg";
+const renderData = {
+  render1: {
+    title: "Baño",
+    summary: "Baño moderno con bañera exenta, revestimientos oscuros y líneas de luz integradas.",
+    desc: "Baño de estilo moderno con bañera exenta, revestimientos oscuros veteados y grifería metálica. Las líneas de luz integradas marcan la geometría del espacio y crean contraste con las superficies oscuras.\n\nUn estudio de materiales, reflejos e iluminación en una escena de interior. La galería recoge distintas vistas del espacio y sus detalles."
+  },
+  render2: {
+    title: "Oficinas",
+    summary: "Oficinas realizadas para un proyecto de realidad virtual, con zonas de trabajo y descanso.",
+    desc: "Oficinas realizadas para un proyecto de realidad virtual, con espacios de trabajo y zonas de descanso pensadas para recorrer en un entorno inmersivo.\n\nLos ventanales abren las vistas al exterior, mientras que los motivos geométricos se repiten en la iluminación y los elementos decorativos. La galería muestra distintas áreas del proyecto."
+  },
+  render3: {
+    title: "Cabaña",
+    summary: "Cabaña rústica de madera, con vegetación y un interior centrado en los detalles.",
+    desc: "Cabaña de madera en un entorno arbolado. En el interior, una mesa con papeles, un farol y la vegetación que cae sobre los troncos componen una escena de carácter rústico.\n\nEl trabajo se centra en las texturas de la madera, los pequeños objetos y el contraste entre luz y sombra. La galería incluye vistas interiores y exteriores de la cabaña."
+  },
+  render4: {
+    title: "Casa",
+    summary: "Mi primer modelo 3D: una vivienda con varios interiores y una terraza exterior.",
+    desc: "Este fue el primer modelo 3D que hice. Es una vivienda con varias estancias: salón, recibidor, cocina y una escalera abierta, además de una terraza exterior con mobiliario y plantas.\n\nEn sus espacios combiné superficies claras, madera y distintos puntos de luz. Fue una primera aproximación al modelado de espacios, la distribución del mobiliario y el trabajo de materiales e iluminación."
+  }
+};
 
 async function openProduct(id) {
   if (document.getElementById("product-view").style.display === "none") {
@@ -86,7 +108,7 @@ async function openProduct(id) {
     "producto8": { title: "Porta-anillos con Forma de Helado Derretido", desc: "Guarda tus anillos en este portanillos con forma de helado derretido.", link: "https://cults3d.com/es/modelo-3d/joyas/helado-soporte-para-anillos-eamesse" },
     "producto9": { title: "Cinturón de Estrellitas", desc: "Un cinturón con estrellitas.", link: "https://cults3d.com/es/modelo-3d/moda/cinturon-de-estrellas" },
     "producto10": { title: "Posavasos con Forma de Tela de Araña", desc: "Unos posavasos con forma de tela de araña.", link: "https://cults3d.com/es/modelo-3d/variado/posavasos-tela-de-arana-eamesse" },
-    "producto11": { title: "Soporte para Incienso con Forma de Bol de Cereales", desc: "Es un pequeño soporte para incienso.", link: "" },
+    "producto11": { title: "Soporte para Incienso con Forma de Bol de Cereales", desc: "Un pequeño soporte para incienso con forma de bol de cereales.\n\nFotografías pendientes.", link: "" },
     "producto12": { title: "Suculenta con Almacenaje", desc: "Es una pequeña planta decorativa, la parte de la planta y la tierra se pueden quitar y permite guardar cosas dentro de la maceta.", link: "https://cults3d.com/es/modelo-3d/casa/planta-artificial-mini-suculenta-con-almacenaje" },
     "producto13": { title: "Seta Porta Pinceles y Lápices", desc: "Es una pequeña casita seta en la que puedes dejar tus pinceles pientras pintas o usar como lapicero.", link: "https://cults3d.com/es/modelo-3d/arte/seta-porta-pinceles-y-lapices" },
     "producto14": { title: "Soporte para Móvil con Forma de Tentáculo", desc: "Es un soporte con forma de tentáculo para el teléfono móvil.", link: "https://cults3d.com/es/modelo-3d/artilugios/soporte-tentaculo-para-movil" },
@@ -99,8 +121,6 @@ async function openProduct(id) {
     "producto21": { title: "Imán Pulpo", desc: "Es un pequeño pulpo en el que puedes poner un imán.", link: "https://cults3d.com/es/modelo-3d/casa/pulpo-iman" },
     "producto22": { title: "Posa-vasos Personalizados con Logo o Imagen", desc: "Diseño personalizado de posa-vasos, te lo hago con la forma y la imagen/ logo que tu quieras!\n✨ Escríbeme para acordar todos los detalles (imagen, logo, forma...).", link: "https://cults3d.com/es/modelo-3d/casa/posa-vasos-personalizados-con-logo-o-imagen" },
     "producto23": { title: "Cola Articulada", desc: "Es una cola articulada con formas de corazoncitos, perfecta para cosplay, disfraz o como accesorio.", link: "https://cults3d.com/es/modelo-3d/moda/cola-articulada" },
-    "producto24": { title: "Marcos para Fotos con formas de Cámaras", desc: "", link: "" },
-    "producto25": { title: "Soporte para Incienso con Forma de Pastel", desc: "Un peequeño soporte para incienso con forma de pastelito con fresas.", link: "" },
     "producto26": { title: "Chincheta de Almacenaje para Chinchetas", desc: "Una gran chincheta para almacenar tus chinchetas.", link: "https://cults3d.com/es/modelo-3d/casa/pushpin-storage-for-pushpins" },
     "producto27": { title: "Cuadro \"nothing\" DHMIS (don't hug me i'm scared)", desc: "Es un fan-art de un cuadro que aparece en la serie de youtube \"don't hug me i'm scared\".", link: "https://cults3d.com/es/modelo-3d/arte/cuadro-nothing-dhmis-don-t-hug-me-i-m-scared" },
     "producto28": { title: "Accesorio para Cascos Orejas Gato y Antenas", desc: "Son unos accesorios para cascos: orejas de gato alienígena, y antenas que se mueven.", link: "https://cults3d.com/es/modelo-3d/moda/accesorio-orejas-gato-y-antenas-para-cascos" },
@@ -110,7 +130,6 @@ async function openProduct(id) {
     "producto32": { title: "Imanes Ratón de Ordenador", desc: "Son unos imanes con forma de ratón de ordenador.", link: "https://cults3d.com/es/modelo-3d/casa/imanes-con-forma-de-raton-de-ordenador" },
     "producto33": { title: "Collar y Anillo de Gotas de Sangre", desc: "Son un collar choker y un anillo con la forma de gotas de sangre, perfecto para disfraz o como accesorio.", link: "https://cults3d.com/es/modelo-3d/moda/collar-y-anillo-de-gotas-de-sangre" },
     "producto34": { title: "Dedo Articulado", desc: "Es un dedo articulado, se monta por piezas! La parte de la \"cuchilla\" se puede sacar y poner,o se puede pegar con pegamento si prefieres.", link: "https://cults3d.com/es/modelo-3d/moda/dedo-articulado" },
-    "producto35": { title: "Lapicero con Forma de Tortuga", desc: "Una pequeña tortuga en la que puedes guardar tus pinceles y lápices.", link: "" },
     "producto36": { title: "Diadema con Antenas de Alien", desc: "Es una diadema con antenas de extraterrestre que se mueven, ideal para disfraz.", link: "https://cults3d.com/es/modelo-3d/moda/diadema-con-antenas-de-alienigena" },
     // 37-41 vacíos
     "producto42": { title: "Decoración Navidad Gótica", desc: "Decoraciones creepy para decorar tu árbol de navidad y lo que quieras.", link: "https://cults3d.com/es/modelo-3d/variado/decoracion-navidad-gotica" },
@@ -121,8 +140,9 @@ async function openProduct(id) {
   };
 
   if (productId.startsWith("render")) {
-    document.getElementById("product-title").innerText = "Render " + productId.replace("render", "");
-    document.getElementById("product-desc").innerText = "Visualización 3D artística realizada con Blender/Cycles.";
+    const data = renderData[productId];
+    document.getElementById("product-title").innerText = data.title;
+    document.getElementById("product-desc").innerText = data.desc;
     document.getElementById("product-link").style.display = "none";
   } else {
     const data = productData[productId] || {
@@ -143,14 +163,20 @@ async function openProduct(id) {
 
   focusProduct();
 
+  if (productId === "producto11") {
+    productImages = [imagePlaceholder];
+    updateMainImage();
+    renderThumbnails();
+    return;
+  }
+
   // CARGA DINÁMICA DE IMÁGENES
   const basePath = productId.startsWith("render") ? "fotos_renders" : "fotos_productos_3d";
-  const extensions = productId === "producto24" ? [".png"] : [".jpg", ".JPG"];
+  const extensions = [".jpg", ".JPG"];
   for (let i = 1; i <= 10; i++) {
     let found = false;
     for (const ext of extensions) {
-      const fileName = productId === "producto24" ? `marcocam_${i}` : i;
-      const url = `${basePath}/${productId}/${fileName}${ext}`;
+      const url = `${basePath}/${productId}/${i}${ext}`;
       const exists = await new Promise((resolve) => {
         const img = new Image();
         img.onload = () => resolve(true);
@@ -245,6 +271,15 @@ function goBack(restorePosition = true) {
 }
 
 // Keep the existing galleries usable with a keyboard and on touchscreens.
+document.querySelectorAll("[data-render]").forEach(card => {
+  const data = renderData[card.dataset.render];
+  card.querySelector(".overlay").textContent = data.title;
+  const description = document.createElement("p");
+  description.className = "render-description";
+  description.textContent = data.summary;
+  card.appendChild(description);
+});
+
 document.querySelectorAll(".module-card").forEach(card => {
   const title = card.querySelector(".overlay").textContent.trim();
   if (card.tagName !== "BUTTON") {
