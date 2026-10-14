@@ -18,7 +18,6 @@
   --about: #f1c6d7;
   --contact: #f4dce6;
   --hero-panel: #f2c7d8;
-  --hero-band: #dfa0b9;
   --models-surface: #f8e7ee;
   --models-line: #e6bacb;
   --renders-surface: #eae3f7;
@@ -55,7 +54,6 @@
     --about: #4b2c3d;
     --contact: #362430;
     --hero-panel: #402b39;
-    --hero-band: #6d3e55;
     --models-surface: #30232c;
     --models-line: #59384a;
     --renders-surface: #282333;
@@ -88,7 +86,6 @@
   --about: #4b2c3d;
   --contact: #362430;
   --hero-panel: #402b39;
-  --hero-band: #6d3e55;
   --models-surface: #30232c;
   --models-line: #59384a;
   --renders-surface: #282333;
@@ -191,7 +188,6 @@ header {
 .hero-tags span { font-size: .73rem; border: 1px solid var(--line); color: var(--muted); border-radius: 50px; padding: 6px 13px; }
 .hero-art { min-width: 0; }
 .hero-brand { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; width: 100%; aspect-ratio: 4 / 3; background: var(--hero-panel); border-radius: 20px; overflow: hidden; }
-.hero-brand::before { content: ""; position: absolute; inset: 27% 0; background: var(--hero-band); }
 .hero-brand img { position: relative; z-index: 1; }
 .hero-brand-mark { width: 44%; max-width: 240px; height: auto; }
 .hero-brand-name { width: 29%; max-width: 160px; height: auto; filter: var(--icon-filter); }
@@ -202,7 +198,7 @@ header {
 .module { margin-top: 42px; margin-bottom: 64px; }
 #modelos, #renders { padding: 32px; border-radius: var(--radius); border: 1px solid; }
 #modelos { background: var(--models-surface); border-color: var(--models-line); }
-#renders { background: var(--renders-surface); border-color: var(--renders-line); }
+#renders { background: var(--models-surface); border-color: var(--models-line); }
 .module-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 25px; }
 .module-header .eyebrow { margin-bottom: 9px; }
 .module-header h2 { margin: 0; font-size: clamp(1.5rem, 2.5vw, 2rem); }
