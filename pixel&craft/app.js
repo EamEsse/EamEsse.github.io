@@ -5,7 +5,7 @@
   const texts = {
     es: {
       new:'Nuevo', open:'Abrir', save:'Guardar', saveAs:'Guardar como', export:'Exportar', import:'Importar', size:'Tamaño', width:'Ancho', height:'Alto',
-      shape:'Alternar forma cuadrada / circular', help:'Ayuda', draw:'Dibujo', preview:'Visualizador', work:'Trabajo', tools:'Herramientas',
+      shape:'Alternar forma rectangular / circular', help:'Ayuda', draw:'Dibujo', preview:'Visualizador', work:'Trabajo', tools:'Herramientas',
       pencil:'Lápiz', eraser:'Goma', eyedropper:'Cuentagotas', bucket:'Cubo de relleno', clearLayer:'Limpiar capa activa', brushSize:'Tamaño del pincel',
       currentColor:'Color actual', picker:'Selector de color', sv:'Saturación y brillo', hue:'Matiz', transparency:'Transparencia', saveColor:'Guardar color',
       recent:'Recientes', clearRecent:'Limpiar recientes', saved:'Guardados', canvas:'Lienzo de pixel art', fit:'Centrar', layers:'Capas', addLayer:'Añadir capa',
@@ -30,7 +30,7 @@
         'Guardar descarga el proyecto a tu dispositivo. Guardar como y Exportar abren las opciones PNG y la leyenda de letras.',
         'Botones ↶ / ↷ a la derecha de las pestañas o Ctrl+Z: deshacer; Ctrl+Y o Ctrl+Mayús+Z: rehacer. Ctrl+S: guardar. La edición de texto conserva sus propios atajos.',
         'Rueda: zoom. Botón central o Espacio + arrastrar: mover la vista. Centrar ajusta el lienzo. En pantallas táctiles, selecciona una herramienta y arrastra para pintar.',
-        'Forma alterna cuadrado / círculo. El cuadrado usa el lado menor; un círculo con ancho y alto distintos se convierte en óvalo. Se conservan los píxeles ocultos.'],
+        'Forma alterna rectangular / circular. El modo rectangular usa todo el ancho × alto; el modo circular se convierte en óvalo si las dimensiones difieren. Los píxeles ocultos se conservan.'],
       helpDraw:['Lápiz, goma, cuentagotas y cubo de relleno. El botón derecho borra. El cubo rellena solo la zona conectada del mismo color de la capa activa.',
         'El lápiz y la goma tienen tamaños independientes (1–1000). Las flechas junto al porcentaje cambian el tamaño de uno en uno; mantenerlas pulsadas repite el ajuste. Doble clic en el porcentaje o en la barra para escribir el tamaño.',
         'Flechas con el lienzo enfocado: mover un píxel la capa activa. Los píxeles que salen se conservan y reaparecen al volver.',
@@ -42,7 +42,7 @@
     },
     en: {
       new:'New', open:'Open', save:'Save', saveAs:'Save as', export:'Export', import:'Import', size:'Size', width:'Width', height:'Height',
-      shape:'Toggle square / circle shape', help:'Help', draw:'Draw', preview:'Viewer', work:'Work', tools:'Tools', pencil:'Pencil', eraser:'Eraser',
+      shape:'Toggle rectangular / circular shape', help:'Help', draw:'Draw', preview:'Viewer', work:'Work', tools:'Tools', pencil:'Pencil', eraser:'Eraser',
       eyedropper:'Eyedropper', bucket:'Fill bucket', clearLayer:'Clear active layer', brushSize:'Brush size', currentColor:'Current color', picker:'Color picker',
       sv:'Saturation and brightness', hue:'Hue', transparency:'Transparency', saveColor:'Save color', recent:'Recent', clearRecent:'Clear recent', saved:'Saved',
       canvas:'Pixel art canvas', fit:'Fit', layers:'Layers', addLayer:'Add layer', opacity:'Layer opacity', viewOptions:'View options', letterPattern:'Letter pattern',
@@ -65,7 +65,7 @@
         'Save downloads the project to your device. Save as and Export open PNG options and the letter legend.',
         'Buttons ↶ / ↷ at the right of the tabs or Ctrl+Z: undo; Ctrl+Y or Ctrl+Shift+Z: redo. Ctrl+S: save. Text fields keep their own editing shortcuts.',
         'Mouse wheel: zoom. Middle button or Space + drag: pan. Fit centers the canvas. On touchscreens, choose a tool and drag to paint.',
-        'Shape toggles square / circle. Squares use the shorter side; circles become ellipses when width and height differ. Hidden pixels are preserved.'],
+        'Shape toggles rectangular / circular. Rectangular mode uses the full width × height; circular mode becomes an ellipse when dimensions differ. Hidden pixels are preserved.'],
       helpDraw:['Pencil, eraser, eyedropper and fill bucket. Right button erases. Bucket fills only the connected same-color region of the active layer.',
         'Pencil and eraser have independent sizes (1–1000). The arrows next to the percentage adjust by one; hold to repeat. Double-click the percentage or slider to enter the size.',
         'Arrow keys with the canvas focused: move the active layer by one pixel. Off-canvas pixels are kept and reappear when moved back.',
@@ -117,7 +117,8 @@
   function refresh() {
     cached = null;
     $('width').value = project.Width; $('height').value = project.Height;
-    $('shape').textContent = project.Shape === 'Circle' ? project.Width === project.Height ? '○' : '⬭' : '□';
+    $('shape').textContent = project.Shape === 'Circle' ? project.Width === project.Height ? '○' : '⬭' :
+      project.Width > project.Height ? '▭' : project.Height > project.Width ? '▯' : '□';
     $('doc-info').textContent = `${project.Width} × ${project.Height} · ${name || t('untitled')}${history.dirty(project) ? ' *' : ''}`;
     document.title = `${name || t('untitled')}${history.dirty(project) ? ' *' : ''} – Pixel&Craft`;
     $('tool-label').textContent = `${t(tool)} ${t('selected')}`;

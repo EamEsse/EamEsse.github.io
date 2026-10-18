@@ -47,12 +47,20 @@ test('composite respects layer order, visibility and fractional opacity', () => 
   p.Layers[2].visible=false;assert.equal(p.get(0,0),'#FF00FF00');
   assert.equal(blend(CLEAR,'#80445566'), '#80445566');
 });
-test('square and circle masks preserve full cells and hidden stored data', () => {
+test('rectangular mode uses all width x height cells while circle masks corners', () => {
   const p = new Project(6,4);
-  assert.equal(p.contains(0,1),false);assert.equal(p.contains(1,0),true);assert.equal(p.contains(4,3),true);assert.equal(p.contains(5,1),false);
-  p.Shape='Circle';assert.equal(p.contains(0,1),true);assert.equal(p.contains(0,0),false);
-  p.set(0,1,'#FF111111');p.Shape='Square';assert.equal(p.get(0,1),CLEAR);
-  p.Shape='Circle';assert.equal(p.get(0,1),'#FF111111');
+  assert.equal(p.contains(0,0),true);assert.equal(p.contains(5,0),true);assert.equal(p.contains(0,3),true);assert.equal(p.contains(5,3),true);
+  assert.equal(p.contains(-1,0),false);assert.equal(p.contains(6,0),false);
+  p.set(0,0,'#FF111111');p.Shape='Circle';assert.equal(p.contains(0,1),true);assert.equal(p.contains(0,0),false);
+  assert.equal(p.get(0,0),CLEAR);p.Shape='Square';assert.equal(p.get(0,0),'#FF111111');
+});
+test('resizing to 96 x 32 exposes all requested rectangular rows and columns', () => {
+  const p=new Project(32,32);p.resize(96,32);
+  assert.equal(p.Width,96);assert.equal(p.Height,32);
+  assert.ok(p.contains(0,0)&&p.contains(95,0)&&p.contains(0,31)&&p.contains(95,31));
+  p.set(95,31,'#FF123456');assert.equal(p.get(95,31),'#FF123456');
+  p.Shape='Circle';assert.equal(p.contains(0,0),false);assert.equal(p.contains(48,16),true);
+  p.Shape='Square';assert.equal(p.contains(0,0),true);assert.equal(p.get(95,31),'#FF123456');
 });
 test('strokes interpolate fast drags and large brushes stay within contour', () => {
   const p = new Project(8,8);p.stroke(0,0,7,7,1,'#FF123456');

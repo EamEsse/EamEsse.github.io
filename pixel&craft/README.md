@@ -8,7 +8,7 @@ Editor estático de HTML, CSS y JavaScript, servido en `/pixel%26craft/` por Git
 - Capas: hasta 32, reordenamiento por arrastre, nombre editable, visibilidad, opacidad y foto de referencia en Fondo.
 - Visualizador: patrón de letras, cuadrícula opcional, contador de filas/columnas y paleta con cantidades.
 - Trabajo: cruces por clic/arrastre, colores de cruz/números, letras y contadores.
-- Forma cuadrada/circular, tamaño 1–256, zoom, desplazamiento y movimiento de píxeles con flechas. Los píxeles fuera del lienzo se conservan.
+- Forma rectangular/circular, tamaño 1–256. La forma rectangular usa todas las celdas del ancho × alto indicados; la circular recorta las esquinas como círculo u óvalo. Zoom, desplazamiento y movimiento de píxeles con flechas. Los píxeles fuera del lienzo se conservan.
 - Botones **↶ / ↷** al extremo derecho de la fila de pestañas para deshacer/rehacer, además de Ctrl+Z / Ctrl+Y; abrir/guardar `.pixeljson` compatible con WPF, importar/exportar paletas y exportar PNG con vista previa, escala, letras, fondo, cuadrícula, contadores y leyenda.
 - Flechas **▴ / ▾** junto al porcentaje del pincel: pasos de uno en uno, repetición al mantener pulsado, límites 1–1000 y tamaños independientes para lápiz y goma. Porcentaje de arriba, lectura debajo de la barra, relleno y deslizador permanecen sincronizados.
 - Español/inglés, preferencia persistida en el navegador y ayuda de la pestaña activa.
@@ -21,9 +21,9 @@ El botón del sitio apunta directamente a:
 
 `https://github.com/EamEsse/EamEsse.github.io/releases/latest/download/Pixel.Craft.exe`
 
-La [Release v1.0.1](https://github.com/EamEsse/EamEsse.github.io/releases/tag/v1.0.1) incluye el ejecutable actualizado. GitHub normaliza el nombre del asset de `Pixel&Craft.exe` a **`Pixel.Craft.exe`**, por eso el enlace de descarga utiliza ese nombre.
+La [Release v1.0.2](https://github.com/EamEsse/EamEsse.github.io/releases/tag/v1.0.2) incluye el ejecutable actualizado. GitHub normaliza el nombre del asset de `Pixel&Craft.exe` a **`Pixel.Craft.exe`**, por eso el enlace de descarga utiliza ese nombre.
 
-Archivo actual: `C:\Users\Sara\Desktop\pixel\dist\Pixel&Craft\Pixel&Craft.exe` (versión 1.0.1, 140.780.608 bytes; Windows x64, incluye .NET). Las tres pestañas de escritorio también incluyen el botón Centrar, en la esquina superior derecha del lienzo.
+Archivo actual: `C:\Users\Sara\Desktop\pixel\dist\Pixel&Craft\Pixel&Craft.exe` (versión 1.0.2, Windows x64, incluye .NET). Las tres pestañas de escritorio también incluyen el botón Centrar, en la esquina superior derecha del lienzo.
 
 El ejecutable se adjunta a la Release, no al repositorio de Pages. Si se publica otra Release como última, debe incluir también este asset para conservar el enlace `latest/download`.
 

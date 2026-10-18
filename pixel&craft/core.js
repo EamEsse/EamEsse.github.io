@@ -31,8 +31,7 @@
       const w = this.Width, h = this.Height;
       if (x < 0 || y < 0 || x >= w || y >= h) return false;
       if (this.Shape === 'Circle') return ((x + .5 - w / 2) / (w / 2)) ** 2 + ((y + .5 - h / 2) / (h / 2)) ** 2 <= 1;
-      const size = Math.min(w, h), l = Math.floor((w - size) / 2), t = Math.floor((h - size) / 2);
-      return x >= l && x < l + size && y >= t && y < t + size;
+      return true;
     }
     get(x, y) {
       if (!this.contains(x, y)) return CLEAR;
