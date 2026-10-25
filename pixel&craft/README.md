@@ -14,6 +14,8 @@ Editor estático de HTML, CSS y JavaScript, servido en `/pixel%26craft/` por Git
 - En la pestaña **Dibujo**, las flechas **↑ ↓ ← →** desplazan la capa activa una celda por pulsación, aunque el lienzo no tenga foco; **Ctrl+Z** restaura el movimiento. Los píxeles que salen del área se conservan y reaparecen al moverlos de vuelta.
 - Español/inglés, preferencia persistida en el navegador y ayuda de la pestaña activa.
 
+Las revisiones del editor web se publican de forma independiente de la versión del ejecutable de escritorio.
+
 En el navegador, **Guardar** descarga el proyecto; no sobrescribe automáticamente el archivo original. **Guardar como**, igual que en escritorio, abre la exportación PNG. La leyenda se descarga con su botón separado para que el navegador no bloquee varias descargas automáticas. El exportador limita las imágenes a 25 millones de píxeles y los patrones con letras a los 52 símbolos del programa de escritorio.
 
 ## Descarga de escritorio
