@@ -26,6 +26,35 @@ test('movement survives off-canvas save/load, mask switches and return movement'
   assert.equal(loaded.get(0, 0), '#FF010203');
   assert.equal(loaded.active.outsidePixels.length, 0);
 });
+test('keyboard movement shifts the selected layer in all directions and preserves pixels for return', () => {
+  let p=new Project(7,5);const history=new History(p);
+  p.set(0,0,'#FFFF0000');p.set(3,2,'#FF00FF00');p.set(6,4,'#FF0000FF');
+  history.reset(p);
+  for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]) {
+    history.begin(p);p.move(dx,dy);history.end(p);
+  }
+  assert.equal(p.get(0,0),'#FFFF0000');assert.equal(p.get(3,2),'#FF00FF00');assert.equal(p.get(6,4),'#FF0000FF');
+  assert.equal(history.past.length,4);
+  for(let i=0;i<4;i++)p=history.undo(p);
+  assert.equal(p.get(0,0),'#FFFF0000');assert.equal(p.get(3,2),'#FF00FF00');assert.equal(p.get(6,4),'#FF0000FF');
+  for(let i=0;i<4;i++)p=history.redo(p);
+  assert.equal(p.get(0,0),'#FFFF0000');assert.equal(p.get(3,2),'#FF00FF00');assert.equal(p.get(6,4),'#FF0000FF');
+});
+test('movement uses the active layer and retains its off-canvas pixels under the circle mask',()=>{
+  let p=new Project(5,5);p.set(0,2,'#FFFF0000');p.addLayer();p.set(2,2,'#FF00FF00');p.Shape='Circle';
+  const h=new History(p);h.begin(p);p.move(1,0);h.end(p);
+  assert.equal(p.Layers[1].hex[2*5+0],'#FFFF0000');assert.equal(p.get(3,2),'#FF00FF00');
+  p=h.undo(p);assert.equal(p.get(2,2),'#FF00FF00');assert.equal(p.get(0,2),'#FFFF0000');
+  p=h.redo(p);p.move(-1,0);assert.equal(p.get(2,2),'#FF00FF00');
+});
+test('document dimensions and content survive repeated directional key-style movement with undo/redo',()=>{
+  let p=new Project(96,32);const h=new History(p);p.set(0,0,'#FFFF0000');p.set(95,31,'#FF0000FF');h.reset(p);
+  h.begin(p);p.move(-1,0);h.end(p);assert.ok(p.active.outsidePixels.some(q=>q.x===-1&&q.y===0));
+  h.begin(p);p.move(0,1);h.end(p);h.begin(p);p.move(1,0);h.end(p);h.begin(p);p.move(0,-1);h.end(p);
+  assert.equal(p.Width,96);assert.equal(p.Height,32);assert.equal(p.get(0,0),'#FFFF0000');assert.equal(p.get(95,31),'#FF0000FF');
+  p=h.undo(p);assert.equal(p.get(95,31),CLEAR);p=h.redo(p);assert.equal(p.get(95,31),'#FF0000FF');
+  assert.equal(p.Width,96);assert.equal(p.Height,32);
+});
 test('desktop schema round trips layers, ARGB, reference, saved names and marks', () => {
   const fixture = { Width:2, Height:2, Shape:'Circle', ActiveLayer:1, Cells:[],
     Layers:[{name:'Fondo',hex:['#00000000','#00FFFFFF','#00FFFFFF','#00FFFFFF'],visible:false,opacity:.5,defaultNameNumber:0},

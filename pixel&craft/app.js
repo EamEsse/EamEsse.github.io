@@ -33,7 +33,7 @@
         'Forma alterna rectangular / circular. El modo rectangular usa todo el ancho × alto; el modo circular se convierte en óvalo si las dimensiones difieren. Los píxeles ocultos se conservan.'],
       helpDraw:['Lápiz, goma, cuentagotas y cubo de relleno. El botón derecho borra. El cubo rellena solo la zona conectada del mismo color de la capa activa.',
         'El lápiz y la goma tienen tamaños independientes (1–1000). Las flechas junto al porcentaje cambian el tamaño de uno en uno; mantenerlas pulsadas repite el ajuste. Doble clic en el porcentaje o en la barra para escribir el tamaño.',
-        'Flechas con el lienzo enfocado: mover un píxel la capa activa. Los píxeles que salen se conservan y reaparecen al volver.',
+        'Con la pestaña Dibujo activa, pulsa ↑ ↓ ← → para mover la capa seleccionada un píxel por pulsación. No hace falta enfocar el lienzo. Los píxeles que salen se conservan fuera del área y reaparecen al volver. Ctrl+Z deshace cada movimiento.',
         'Capas: + añade; − elimina; el ojo muestra u oculta. Arrastra un nombre para ordenar, o haz doble clic para renombrar. Fondo está fijo abajo.',
         'El + de Fondo carga una foto para calcar. Con Fondo seleccionado, arrastra para moverla y usa la rueda para cambiar su tamaño. Ctrl+rueda hace zoom. El cuentagotas también toma colores de la foto.',
         'HEX admite #RRGGBB o #AARRGGBB. En Transparencia, izquierda = transparente y derecha = opaco. Clic derecho en un color guardado permite renombrar, copiar o eliminar. Importar admite también arrastrar una paleta .pixeljson.'],
@@ -68,7 +68,7 @@
         'Shape toggles rectangular / circular. Rectangular mode uses the full width × height; circular mode becomes an ellipse when dimensions differ. Hidden pixels are preserved.'],
       helpDraw:['Pencil, eraser, eyedropper and fill bucket. Right button erases. Bucket fills only the connected same-color region of the active layer.',
         'Pencil and eraser have independent sizes (1–1000). The arrows next to the percentage adjust by one; hold to repeat. Double-click the percentage or slider to enter the size.',
-        'Arrow keys with the canvas focused: move the active layer by one pixel. Off-canvas pixels are kept and reappear when moved back.',
+        'With the Draw tab active, press ↑ ↓ ← → to move the selected layer by one pixel per press. The canvas does not need focus. Off-canvas pixels are preserved and reappear when moved back. Ctrl+Z undoes each move.',
         'Layers: + adds; − deletes; the eye toggles visibility. Drag a name to reorder; double-click to rename. Background stays at the bottom.',
         'The Background + loads a tracing photo. With Background selected, drag to move it; wheel resizes it. Ctrl+wheel zooms the canvas. Eyedropper also samples the photo.',
         'HEX accepts #RRGGBB or #AARRGGBB. Transparency: left = transparent, right = opaque. Right-click a saved color to rename, copy or delete it. Import also accepts dropping a .pixeljson palette.'],
@@ -276,6 +276,7 @@
     $('draw-sidebar').hidden=tab!=='draw';$('layers-dock').hidden=tab!=='draw';$('preview-sidebar').hidden=tab!=='preview';$('work-sidebar').hidden=tab!=='work';
     document.querySelectorAll('[data-tab]').forEach(b=>{const selected=b.dataset.tab===tab;b.setAttribute('aria-selected',selected);b.tabIndex=selected?0:-1;});
     renderHelp();renderUsed();schedule();
+    if(tab==='draw')canvas.focus({preventScroll:true});
   }
   document.querySelectorAll('[data-tab]').forEach(b=>{
     b.addEventListener('click',()=>setTab(b.dataset.tab));
@@ -283,7 +284,7 @@
   });
   $('fit').onclick=fit;
   document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{
-    endPointer();tool=b.dataset.tool;document.querySelectorAll('[data-tool]').forEach(bt=>bt.classList.toggle('selected',bt===b));refresh();
+    endPointer();tool=b.dataset.tool;document.querySelectorAll('[data-tool]').forEach(bt=>bt.classList.toggle('selected',bt===b));refresh();canvas.focus({preventScroll:true});
   });
   function syncBrushSize() {
     const enabled=['pencil','eraser'].includes(tool),size=tool==='eraser'?eraser:brush;
@@ -360,7 +361,7 @@
     for(let i=project.Layers.length-1;i>=0;i--) {
       const l=project.Layers[i],row=document.createElement('div');row.className='layer-row'+(i===project.ActiveLayer?' active':'')+(!l.visible?' invisible':'');
       const n=document.createElement('button');n.className='layer-name';n.textContent=layerName(l);n.title=t('dragLayer');n.draggable=i>0;
-      n.onclick=()=>{endPointer();project.ActiveLayer=i;refresh();};
+      n.onclick=()=>{endPointer();project.ActiveLayer=i;refresh();canvas.focus({preventScroll:true});};
       n.ondblclick=async()=>{const value=await request(t('layerName'),'',layerName(l));if(value!==null&&value.trim())mutate(()=>{l.name=value.trim();l.defaultNameNumber=null;});};
       n.ondragstart=e=>{endPointer();draggedLayer=i;e.dataTransfer.setData('text/plain',String(i));e.dataTransfer.effectAllowed='move';};
       n.ondragend=()=>{draggedLayer=null;list.querySelectorAll('.drop').forEach(r=>r.classList.remove('drop'));};
@@ -438,7 +439,7 @@
     try {const next=C.Project.load(await f.text()),img=await decodeReference(next.ReferenceImage);
       if(history.dirty(project)&&!await confirm('confirmOpen'))return;
       endPointer();project=next;name=baseName(f.name);history.reset(project);reference=img;referenceData=next.ReferenceImage?.data||null;
-      Object.values(views).forEach(v=>v.fitted=false);refresh();status('opened');
+      Object.values(views).forEach(v=>v.fitted=false);refresh();canvas.focus({preventScroll:true});status('opened');
     }catch(e){status('invalidProject');await request(t('error'),t('invalidProject'));}
   };
   $('export-palette').onclick=()=>download(new Blob([JSON.stringify({Width:1,Height:1,Cells:[],Recent:[],Saved:project.Saved,Marks:[]},null,2)],{type:'application/json'}),t('palette')+'.pixeljson');
@@ -483,14 +484,15 @@
   }
   $('undo').onclick=()=>undo(false);$('redo').onclick=()=>undo(true);
   window.addEventListener('keydown',e=>{
-    const editable=e.target.matches('input,textarea,[contenteditable=true]');
+    const target=e.target instanceof Element?e.target:null;
+    const editable=!!target?.closest('input,textarea,select,[contenteditable=true],[role=slider]');
     if(e.key==='Escape'){space=false;$('help').hidden=true;$('help-button').setAttribute('aria-expanded','false');draggedLayer=null;return;}
     if(e.key===' '&&!editable&&e.target===canvas){e.preventDefault();space=true;}
     if($('prompt-dialog').open||$('export-dialog').open)return;
     if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save();return;}
     if(editable)return;
     if((e.ctrlKey||e.metaKey)&&['z','y'].includes(e.key.toLowerCase())){e.preventDefault();undo(e.key.toLowerCase()==='y'||e.shiftKey);return;}
-    if(e.target===canvas&&tab==='draw'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.startsWith('Arrow')) {
+    if(!editable&&!e.defaultPrevented&&!target?.closest('[role=tab]')&&tab==='draw'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.startsWith('Arrow')) {
       const delta={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(delta){e.preventDefault();mutate(()=>project.move(...delta));}
     }
   });
